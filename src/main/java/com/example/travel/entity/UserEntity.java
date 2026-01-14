@@ -35,10 +35,10 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "tenDangNhap", nullable = false)
+    @Column(name = "tenDangNhap", nullable = false, unique = true)
     private String userName;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "matKhau", nullable = false)
@@ -47,7 +47,7 @@ public class UserEntity {
     @Column(name = "hoTen", nullable = false)
     private String fullName;
 
-    @Column(name = "soDienThoai", nullable = false)
+    @Column(name = "soDienThoai", nullable = false, unique = true)
     private String phoneNumber;
 
     @Column(name = "diaChi")
