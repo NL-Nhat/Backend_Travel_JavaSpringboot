@@ -8,4 +8,5 @@ public interface TourService {
 
     public List<TourResponseDTO> getFiveTourHot();
 
+    public long countNumberTour();
 }

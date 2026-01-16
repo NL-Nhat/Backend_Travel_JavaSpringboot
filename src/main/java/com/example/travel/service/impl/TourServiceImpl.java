@@ -27,4 +27,9 @@ public class TourServiceImpl implements TourService{
         return listTour.stream().map(tourMapper::mapToTourResponseDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public long countNumberTour() {
+        return tourRepository.count();
+    }
+
 }
