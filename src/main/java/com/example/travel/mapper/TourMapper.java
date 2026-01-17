@@ -4,14 +4,13 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import org.springframework.stereotype.Component;
-
+import org.mapstruct.Mapper;
 import com.example.travel.dto.response.TourResponseDTO;
 
-@Component
-public class TourMapper {
+@Mapper(componentModel = "spring") // Để Spring quản lý Mapper như một Bean
+public interface TourMapper {
 
-    public TourResponseDTO mapToTourResponseDTO(Object [] row) {
+    public default TourResponseDTO mapToTourResponseDTO_Object(Object [] row) {
         return TourResponseDTO.builder()
                 .id(((Number) row[0]).intValue())
                 .tourName((String) row[1])
