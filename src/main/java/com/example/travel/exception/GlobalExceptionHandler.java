@@ -1,7 +1,5 @@
 package com.example.travel.exception;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,7 +23,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDTO> handleFieldRequiredException(FieldRequiredException e) {
         ErrorResponseDTO err = new ErrorResponseDTO();
         err.setMessage(e.getMessage());
-        err.setDetail(List.of("Hãy kiểm tra các trường dữ liệu bắt buộc"));
+        err.setDetail("Hãy kiểm tra các trường dữ liệu bắt buộc");
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
