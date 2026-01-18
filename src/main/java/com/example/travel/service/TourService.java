@@ -3,6 +3,7 @@ package com.example.travel.service;
 import java.util.List;
 import java.util.Map;
 
+import com.example.travel.dto.response.TourDetailResponseDTO;
 import com.example.travel.dto.response.TourResponseDTO;
 
 public interface TourService {
@@ -11,9 +12,11 @@ public interface TourService {
     public List<TourResponseDTO> getFiveTourHot();
 
     // Đếm số tour
-    public long countNumberTour();
+    public long countAllTour();
 
     //Lấy tất cả tour theo trạng thái
     //Phân trang viết trong MySQL
     public Map<String, Object> getAllTourDangMo(int page, int size);
+
+    public TourDetailResponseDTO getDetailTour(Integer id);
 }

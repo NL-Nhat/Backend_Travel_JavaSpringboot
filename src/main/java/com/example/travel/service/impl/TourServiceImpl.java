@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+
+import com.example.travel.dto.response.TourDetailResponseDTO;
 import com.example.travel.dto.response.TourResponseDTO;
+import com.example.travel.entity.TourEntity;
 import com.example.travel.mapper.TourMapper;
 import com.example.travel.repository.TourRepository;
 import com.example.travel.service.TourService;
@@ -28,7 +31,7 @@ public class TourServiceImpl implements TourService{
     }
 
     @Override
-    public long countNumberTour() {
+    public long countAllTour() {
         return tourRepository.count();
     }
 
@@ -48,7 +51,7 @@ public class TourServiceImpl implements TourService{
         Lấy tổng số tour đang mở sau đó tính tổng số trang theo tổng số tour.
         vd: 1 trang có 10 tour, trổng có 21 tour -> 21/10 = 2.1 -> có 3 trang: trang 1,2 có 10 tour, trang 3 có 1 tour
         */ 
-        long total = tourRepository.countTourDangMo();
+        long total = tourRepository.countByStatus("Đang mở");
         int totalPages = (int) Math.ceil((double) total / size);
 
         //Thêm các thông tin gửi cho client
@@ -58,8 +61,18 @@ public class TourServiceImpl implements TourService{
         result.put("size", size);
         result.put("total", total);
         result.put("totalPages", totalPages);
-
+        
         return result;
+    }
+
+    @Override
+    public TourDetailResponseDTO getDetailTour(Integer id) {
+        TourEntity tourEntity = tourRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy tour có id này"));
+
+        TourDetailResponseDTO tourDetailResponseDTO =  tourMapper.toTourDetailResponseDTO(tourEntity);
+        tourDetailResponseDTO.setDestinationName(tourEntity.getDestination().getDestinationName());
+        
+        return tourDetailResponseDTO;
     }
 
 }

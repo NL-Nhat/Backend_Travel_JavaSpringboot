@@ -36,5 +36,5 @@ public class ImageTourEntity {
     private String mainImage;
 
     @Column(name = "moTa")
-    private String moTa;
+    private String describe;
 }

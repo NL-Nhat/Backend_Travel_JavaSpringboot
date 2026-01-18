@@ -62,7 +62,7 @@ public class TourEntity {
     private String status;
 
     @OneToMany(mappedBy = "tour", fetch = FetchType.LAZY)
-    private List<ScheduleEntity> schedules = new ArrayList<ScheduleEntity>();
+    private List<DepartureCheduleEntity> departureChedules = new ArrayList<DepartureCheduleEntity>();
 
     @OneToMany(mappedBy = "tour", fetch = FetchType.LAZY)
     private List<ImageTourEntity> imageTours = new ArrayList<ImageTourEntity>();

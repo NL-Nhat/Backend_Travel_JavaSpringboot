@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.travel.dto.response.TourDetailResponseDTO;
 import com.example.travel.dto.response.TourResponseDTO;
 import com.example.travel.service.TourService;
 
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
@@ -37,10 +39,16 @@ public class TourController {
         return ResponseEntity.ok(tourService.getFiveTourHot());
     }
     
-    @GetMapping("/count-tour")
+    @GetMapping("/count-all-tour")
     @Operation(summary = "Đếm số tour")
-    public ResponseEntity<?> countNumberTour() {
-        return ResponseEntity.ok(tourService.countNumberTour());
+    public ResponseEntity<Long> countNumberTour() {
+        return ResponseEntity.ok(tourService.countAllTour());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TourDetailResponseDTO> getDetailTour(@PathVariable Integer id) {
+
+        return ResponseEntity.ok(tourService.getDetailTour(id));
     }
 
 }

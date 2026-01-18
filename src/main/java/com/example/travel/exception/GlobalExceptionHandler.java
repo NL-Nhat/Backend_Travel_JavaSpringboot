@@ -2,6 +2,7 @@ package com.example.travel.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -32,6 +33,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    // Bắt lỗi Validation (Dữ liệu đầu vào không hợp lệ)
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    ResponseEntity<ErrorResponseDTO> handlingValidation(MethodArgumentNotValidException exception) {
+        String enumKey = exception.getFieldError().getDefaultMessage();
+        
+        ErrorResponseDTO apiResponse = new ErrorResponseDTO();
+        apiResponse.setMessage(enumKey);
+        apiResponse.setDetail("Dữ liệu đầu vào không hợp lệ");
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
 
     // Xử lý tất cả các lỗi hệ thống khác (Exception chung)

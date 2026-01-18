@@ -43,7 +43,7 @@ public class BookingEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "maLichKhoiHanh")
-    private ScheduleEntity schedule;
+    private DepartureCheduleEntity departureChedule;
 
     @Column(name = "soNguoiLon", nullable = false)
     private Integer adultNumber;

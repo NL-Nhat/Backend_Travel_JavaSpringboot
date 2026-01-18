@@ -5,7 +5,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import org.mapstruct.Mapper;
+
+import com.example.travel.dto.response.TourDetailResponseDTO;
 import com.example.travel.dto.response.TourResponseDTO;
+import com.example.travel.entity.TourEntity;
 
 @Mapper(componentModel = "spring") // Để Spring quản lý Mapper như một Bean
 public interface TourMapper {
@@ -25,4 +28,12 @@ public interface TourMapper {
                 .startTime((LocalTime) row[10])
                 .build();
     }
+
+    // Chuyển từ Request DTO sang Entity để lưu DB
+    // User toUser(UserRegistrationRequest request);
+
+    // // Chuyển từ Entity sang Response DTO để trả về Client
+    // UserResponse toUserResponse(User user);
+
+    TourDetailResponseDTO toTourDetailResponseDTO(TourEntity tourEntity);
 }

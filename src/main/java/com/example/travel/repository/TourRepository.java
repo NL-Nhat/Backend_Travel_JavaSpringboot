@@ -22,8 +22,7 @@ public interface TourRepository extends JpaRepository<TourEntity, Integer>{
     @Query(value = "CALL sp_LayDanhSachTourDangMo_Paging(?1, ?2)", nativeQuery = true)
     List<Object[]> getTourDangMoPaging(int offset, int limit);
 
-    @Query(value = "CALL sp_DemTongTourDangMo()", nativeQuery = true)
-    Long countTourDangMo();
-
+    // @Query(value = "CALL sp_DemTongTourDangMo()", nativeQuery = true)
+    long countByStatus(String status);
 
 }

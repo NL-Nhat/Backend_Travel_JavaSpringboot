@@ -2,10 +2,7 @@ package com.example.travel.entity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import jakarta.persistence.Column;
@@ -16,53 +13,37 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "LichKhoiHanh")
-@DynamicUpdate
-@DynamicInsert
+@Table(name = "LichTrinh")
+@DynamicUpdate // Chỉ update những trường có thay đổi (rất tốt cho hiệu suất)
 public class ScheduleEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "maLichKhoiHanh")
+    @Column(name = "maLichTrinh")
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "maTour")
-    private TourEntity tour;
+    @JoinColumn(name = "maLichKhoiHanh")
+    private DepartureCheduleEntity departureChedule;
 
-    @Column(name = "ngayKhoiHanh", nullable = false)
-    private LocalDate startDate;
+    @Column(name = "ngay", nullable = false)
+    private LocalDate date;
 
-    @Column(name = "gioKhoiHanh", nullable = false)
-    private LocalTime startTime;
+    @Column(name = "gio", nullable = false)
+    private LocalTime time;
 
-    @Column(name = "ngayKetThuc", nullable = false)
-    private LocalDate endDate;
+    @Column(name = "hoatDong", nullable = false)
+    private String work;
 
-    @Column(name = "gioKetThuc")
-    private LocalTime endTime;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "huongDanVien")
-    private UserEntity huongDanVien;
-
-    @Column(name = "soLuongKhachToiDa")
-    private Integer maxGuest;
-
-    @Column(name = "soLuongKhachDaDat")
-    private Integer numberGuestBooked;
-
-    @OneToMany(mappedBy = "schedule", fetch = FetchType.LAZY)
-    private List<BookingEntity> bookings = new ArrayList<BookingEntity>();
-
+    @Column(name = "moTa")
+    private String describe;
 }
