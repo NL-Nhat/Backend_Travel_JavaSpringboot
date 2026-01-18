@@ -4,8 +4,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.travel.dto.request.SearchRequestDTO;
 import com.example.travel.dto.response.TourDetailResponseDTO;
 import com.example.travel.dto.response.TourResponseDTO;
+import com.example.travel.service.SearchService;
 import com.example.travel.service.TourService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +18,7 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class TourController {
 
     private final TourService tourService;
+    private final SearchService searchService;
 
     @Operation(summary = "Danh sách tour đang mở, có phân trang") //Phân trang này được viết bằng thủ tục trong mysql
     @GetMapping("/all-by-status")
@@ -51,4 +55,8 @@ public class TourController {
         return ResponseEntity.ok(tourService.getDetailTour(id));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<TourResponseDTO>> searchTour(@RequestBody SearchRequestDTO s) {
+        return ResponseEntity.ok(searchService.searchTour(s));
+    }
 }
