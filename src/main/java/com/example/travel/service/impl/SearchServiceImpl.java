@@ -34,6 +34,7 @@ public class SearchServiceImpl implements SearchService{
 
     //2 cách
 
+    //Dùng Specification sinh query tự động
     @Override
     public List<TourResponseDTO> filterTour(SearchRequestDTO s) {
 
@@ -54,6 +55,7 @@ public class SearchServiceImpl implements SearchService{
         return tours.stream().map(tourMapper::mapToTourResponseDTO_Entity).collect(Collectors.toList());
     }
 
+    //Viết query thủ công
     // @Override
     // public List<TourResponseDTO> searchTour(SearchRequestDTO s) {
 

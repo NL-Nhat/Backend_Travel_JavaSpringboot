@@ -16,7 +16,17 @@ import jakarta.persistence.criteria.Predicate;
 
 public class TourSpecification {
 
+    //Lọc
     public static Specification<TourEntity> filterTour(SearchRequestDTO s) {
+
+        /*
+            + Root<T> root: Đại diện cho Entity (giống như FROM TourEntity). 
+                Dùng nó để trỏ đến các thuộc tính (ví dụ: root.get("price")).
+
+            + CriteriaQuery<?> query: Dùng để tạo các câu lệnh phức tạp như GROUP BY, ORDER BY.
+
+            + CriteriaBuilder cb: Công cụ để tạo các điều kiện so sánh như equal, like, greaterThan...
+        */
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -80,16 +90,29 @@ public class TourSpecification {
         };
     }
 
+    //Tìm kiếm
     public static Specification<TourEntity> searchTour(String text) {
         return(root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(cb.equal(root.get("status"), "Đang mở"));
 
-            // // Thực hiện Join với bảng Entity
-            // // "destination" chính là tên biến (khóa ngoại, manytoone) trong TourEntity
-            // Join<TourEntity, DestinationEntity> destinationJoin = root.join("destination", JoinType.INNER);
+            if(text != null && !text.isEmpty()) {
 
-            predicates.add(cb.like(cb.lower(root.get("tourName")), "%" + text.toLowerCase() + "%"));
+                String lowerText = "%" + text.toLowerCase() + "%";
+
+                // // Thực hiện Join với bảng Entity
+                // // "destination" chính là tên biến (khóa ngoại, manytoone) trong TourEntity
+                Join<TourEntity, DestinationEntity> destinationJoin = root.join("destination", JoinType.INNER);
+
+                //Tạo điều kiện OR giữa City và TourName
+                Predicate searchPre = cb.or(
+                    cb.like(cb.lower(destinationJoin.get("city")), lowerText),
+                    cb.like(cb.lower(root.get("tourName")), lowerText)
+                );
+
+                predicates.add(searchPre);
+            }
+
             query.distinct(true);
             return cb.and(predicates.toArray(new Predicate[0]));
         };

@@ -61,7 +61,7 @@ public class TourController {
     }
 
     @GetMapping("/search-tour")
-    public ResponseEntity<List<TourResponseDTO>> searchTour(@RequestParam(value = "tourName") String text) {
+    public ResponseEntity<List<TourResponseDTO>> searchTour(@RequestParam(value = "text") String text) {
         return ResponseEntity.ok(searchService.searchTour(text));
     }
 }
