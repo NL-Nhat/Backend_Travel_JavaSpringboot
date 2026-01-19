@@ -10,6 +10,7 @@ import com.example.travel.dto.response.TourDetailResponseDTO;
 import com.example.travel.dto.response.TourResponseDTO;
 import com.example.travel.entity.TourEntity;
 import com.example.travel.mapper.TourMapper;
+import com.example.travel.projection.TourProjection;
 import com.example.travel.repository.TourRepository;
 import com.example.travel.service.TourService;
 
@@ -24,10 +25,10 @@ public class TourServiceImpl implements TourService{
 
     @Override
     public List<TourResponseDTO> getFiveTourHot() {
-        List<Object[]> listTour = tourRepository.getFiveTourHot();
+        List<TourProjection> listTour = tourRepository.getFiveTourHot();
         
          /* Sử dụng lớp mapper*/
-        return listTour.stream().map(tourMapper::mapToTourResponseDTO_Object).collect(Collectors.toList());
+        return listTour.stream().map(tourMapper::mapToTourResponseDTO_Projection).collect(Collectors.toList());
     }
 
     @Override
@@ -44,7 +45,7 @@ public class TourServiceImpl implements TourService{
         //Danh sách tour theo trang, size: số tour trong 1 trang
         List<TourResponseDTO> data = tourRepository.getTourDangMoPaging(offset, size)
                                                         .stream()
-                                                        .map(tourMapper::mapToTourResponseDTO_Object)
+                                                        .map(tourMapper::mapToTourResponseDTO_Projection)
                                                         .toList();
     
         /* 

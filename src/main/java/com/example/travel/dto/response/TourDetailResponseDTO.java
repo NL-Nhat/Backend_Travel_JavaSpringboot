@@ -1,7 +1,6 @@
 package com.example.travel.dto.response;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Builder;
@@ -21,6 +20,6 @@ public class TourDetailResponseDTO {
     private BigDecimal adultPrice;
     private BigDecimal childPrice;
 
-    List<ImageTourResponseDTO> imageTours = new ArrayList<>();
-    List<DepartureCheduleResponseDTO> departureChedules = new ArrayList<>();
+    List<ImageTourResponseDTO> imageTours;
+    List<DepartureCheduleResponseDTO> departureChedules;
 }

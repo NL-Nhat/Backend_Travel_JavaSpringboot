@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import com.example.travel.entity.TourEntity;
+import com.example.travel.projection.TourProjection;
 
 /*
     JpaSpecificationExecutor là một interface cho phép thực hiện các truy vấn động (dynamic queries)
@@ -18,14 +19,14 @@ public interface TourRepository extends JpaRepository<TourEntity, Integer>, JpaS
 
     //sử dụng @Query với nativeQuery = true để gọi Stored Procedure (thủ tục) trong MySQL.
     @Query(value = "CALL sp_LayTop5TourBanChay()", nativeQuery = true)
-    List<Object[]> getFiveTourHot();
+    List<TourProjection> getFiveTourHot(); //Dùng projecttion thay cho Object để dễ map và dễ cập nhật khi thêm hoặc xóa cột
 
     //Phân trang, lấy tất cả tour theo trạng thái
     // @Query(value = "CALL sp_LayDanhSachTourDangMo()", nativeQuery = true)
     // Page<Object[]> getAllTourByStatus(Pageable pageable);
 
     @Query(value = "CALL sp_LayDanhSachTourDangMo_Paging(?1, ?2)", nativeQuery = true)
-    List<Object[]> getTourDangMoPaging(int offset, int limit);
+    List<TourProjection> getTourDangMoPaging(int offset, int limit);
 
     // @Query(value = "CALL sp_DemTongTourDangMo()", nativeQuery = true)
     long countByStatus(String status);
