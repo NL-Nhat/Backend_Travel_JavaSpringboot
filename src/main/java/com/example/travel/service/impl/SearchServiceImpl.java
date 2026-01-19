@@ -35,10 +35,19 @@ public class SearchServiceImpl implements SearchService{
     //2 cách
 
     @Override
-    public List<TourResponseDTO> searchTour(SearchRequestDTO s) {
+    public List<TourResponseDTO> filterTour(SearchRequestDTO s) {
 
         //Tạo đối tượng Specification từ DTO
         Specification<TourEntity> spec = TourSpecification.filterTour(s);
+
+        List<TourEntity> tours = tourRepository.findAll(spec);
+
+        return tours.stream().map(tourMapper::mapToTourResponseDTO_Entity).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TourResponseDTO> searchTour(String text) {
+        Specification<TourEntity> spec = TourSpecification.searchTour(text);
 
         List<TourEntity> tours = tourRepository.findAll(spec);
 

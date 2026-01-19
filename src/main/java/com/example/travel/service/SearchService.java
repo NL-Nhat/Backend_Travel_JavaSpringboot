@@ -7,5 +7,7 @@ import com.example.travel.dto.response.TourResponseDTO;
 
 public interface SearchService {
 
-    public List<TourResponseDTO> searchTour(SearchRequestDTO s);
+    public List<TourResponseDTO> filterTour(SearchRequestDTO s);
+
+    public List<TourResponseDTO> searchTour(String text);
 }

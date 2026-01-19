@@ -55,8 +55,13 @@ public class TourController {
         return ResponseEntity.ok(tourService.getDetailTour(id));
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<TourResponseDTO>> searchTour(@RequestBody SearchRequestDTO s) {
-        return ResponseEntity.ok(searchService.searchTour(s));
+    @GetMapping("/filter-tour")
+    public ResponseEntity<List<TourResponseDTO>> filterTour(@RequestBody SearchRequestDTO s) {
+        return ResponseEntity.ok(searchService.filterTour(s));
+    }
+
+    @GetMapping("/search-tour")
+    public ResponseEntity<List<TourResponseDTO>> searchTour(@RequestParam(value = "tourName") String text) {
+        return ResponseEntity.ok(searchService.searchTour(text));
     }
 }
