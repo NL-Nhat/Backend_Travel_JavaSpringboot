@@ -2,7 +2,6 @@ package com.example.travel.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-
 import com.example.travel.dto.request.BookingRequestDTO;
 import com.example.travel.dto.response.BookingResponseDTO;
 import com.example.travel.entity.BookingEntity;

@@ -7,7 +7,10 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: none #Không làm gì với CSDL
+      # ddl-auto: create #Xóa toàn bộ bảng cũ → tạo lại từ đầu, chỉ xóa các bảng có trong phần Entity
+      # ddl-auto: update # Tự động cập nhật schema, Giữ dữ liệu cũ, Thêm cột mới, Thêm bảng mới, Không xóa cột/bảng cũ
+      # ddl-auto: create-drop #Tạo bảng khi start, Xóa bảng khi stop
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
