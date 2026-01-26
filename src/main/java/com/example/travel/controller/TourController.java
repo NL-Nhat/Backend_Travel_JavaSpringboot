@@ -12,15 +12,18 @@ import com.example.travel.service.TourService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
+@Validated //thêm vào để sử dụng Bean Validation cho @PathVariable
 @RestController
 @RequestMapping("/api/tours")
 @RequiredArgsConstructor
@@ -32,9 +35,11 @@ public class TourController {
 
     @Operation(summary = "Danh sách tour đang mở, có phân trang") //Phân trang này được viết bằng thủ tục trong mysql
     @GetMapping("/all-by-status")
-    public Map<String, Object> getAllTourByStatus(@RequestParam(defaultValue = "1") int page, // page: số trang, vd: trang 1, trang 2,..
-                                                    @RequestParam(defaultValue = "10") int size) { // size: số tour trong 1 trang
-    return tourService.getAllTourDangMo(page, size);
+    public Map<String, Object> getAllTourByStatus(
+        @RequestParam(defaultValue = "1") @NotNull(message = "page ko đc null") @Min(value = 1, message = "page phải >= 1") Integer page, // page: số trang, vd: trang 1, trang 2,..
+        @RequestParam(defaultValue = "10") @NotNull(message = "size ko đc null") @Min(value = 1, message = "size phải >= 1") Integer size) { // size: số tour trong 1 trang
+        
+        return tourService.getAllTourDangMo(page, size);
     }
 
     @GetMapping("/top5tour")
@@ -50,7 +55,10 @@ public class TourController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TourDetailResponseDTO> getDetailTour(@PathVariable Integer id) {
+    public ResponseEntity<TourDetailResponseDTO> getDetailTour(@PathVariable(value = "id") 
+                                                                @NotNull(message = "id tour ko được null")
+                                                                @Min(value = 1, message = "id tour phải >= 1")
+                                                                Integer id) {
 
         return ResponseEntity.ok(tourService.getDetailTour(id));
     }
