@@ -36,8 +36,9 @@ public class PaymentEntity {
     @JoinColumn(name = "maDatTour")
     private BookingEntity booking;
 
-    @Column(name = "phuongThucThanhToan", nullable = false)
-    private String paymentMethod;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "maPTTT")
+    private PaymentMethodEntity paymentMethod;
 
     @Column(name = "soTien", nullable = false)
     private BigDecimal amount;
