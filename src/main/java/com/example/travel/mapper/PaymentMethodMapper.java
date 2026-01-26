@@ -1,7 +1,6 @@
 package com.example.travel.mapper;
 
 import org.mapstruct.Mapper;
-
 import com.example.travel.dto.response.PaymentMethodResponseDTO;
 import com.example.travel.entity.PaymentMethodEntity;
 
