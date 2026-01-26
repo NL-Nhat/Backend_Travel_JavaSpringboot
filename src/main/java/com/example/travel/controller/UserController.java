@@ -22,5 +22,4 @@ public class UserController {
     public ResponseEntity<?> getMethodName() {
         return ResponseEntity.ok(userService.countNumberUser());
     }
-
 }
