@@ -38,13 +38,20 @@ public class GlobalExceptionHandler {
     // Bắt lỗi Validation (Dữ liệu đầu vào không hợp lệ)
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     ResponseEntity<ErrorResponseDTO> handlingValidation(MethodArgumentNotValidException exception) {
-        String enumKey = exception.getFieldError().getDefaultMessage();
+        String message = exception.getBindingResult()
+            .getFieldErrors()
+            .stream()
+            .findFirst()
+            .map(err -> err.getDefaultMessage())
+            .orElse("Dữ liệu không hợp lệ");
         
         ErrorResponseDTO apiResponse = new ErrorResponseDTO();
-        apiResponse.setMessage(enumKey);
+        apiResponse.setMessage(message);
         apiResponse.setDetail("Dữ liệu đầu vào không hợp lệ");
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(apiResponse);
     }
 
     // Xử lý tất cả các lỗi hệ thống khác (Exception chung)

@@ -10,6 +10,7 @@ import com.example.travel.dto.request.BookingRequestDTO;
 import com.example.travel.dto.response.BookingResponseDTO;
 import com.example.travel.service.BookingService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -20,7 +21,13 @@ public class BookingController {
     private final BookingService bookingService;
 
     @PostMapping("/book-tour")
-    public ResponseEntity<BookingResponseDTO> bookTour(@RequestBody BookingRequestDTO b) {
+    public ResponseEntity<BookingResponseDTO> bookTour(@Valid @RequestBody BookingRequestDTO b) {
         return ResponseEntity.ok(bookingService.bookTour(b));
     }
+
+    // public void checkError(BookingRequestDTO b) throws FieldRequiredException {
+    //     if(b.getNameGuest() == null || b.getNameGuest().isEmpty()) {
+    //         throw new FieldRequiredException("Tên khách hàng bị null");
+    //     }
+    // }
 }
