@@ -77,10 +77,14 @@ public class TourController {
     }
 
     @PostMapping("/add-tour")
-    public ResponseEntity<String> addTour(@Valid @RequestBody TourRequestDTO t, @Valid @RequestParam(value = "idDestination") //Thêm @Valid để hiện lỗi đã đặt trong RequestDto
-                                        @NotNull(message = "id điểm đến ko đc null")
-                                        @Min(value = 1, message = "id điểm đến phải >= 1")    
-                                        Integer id) {
+    public ResponseEntity<String> addTour(@Valid @RequestBody TourRequestDTO t, //Thêm @Valid để hiện lỗi đã đặt trong RequestDto, chỉ dùng cho @RequestBody
+        //Vì @RequestParam luôn có thuộc tính required = true nên phải đặt lại thành false để @Notnull bắt lỗi được
+        //Nếu ko thì cơ chế của Spring sẽ tự động chặn lại và ném ra lỗi: "Required request parameter... is not present". 
+        //Nếu ko kiểm tra null(chỉ dùng @Min) thì ko cần thêm required = false vì cơ chế của Spring chỉ chặn null
+        @RequestParam(value = "idDestination", required = false) 
+        @NotNull(message = "id điểm đến ko đc null")
+        @Min(value = 1, message = "id điểm đến phải >= 1")
+        Integer id) {
         
         return ResponseEntity.ok(tourService.addTour(t, id));
     }
