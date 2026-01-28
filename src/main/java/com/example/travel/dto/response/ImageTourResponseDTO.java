@@ -8,7 +8,7 @@ import lombok.Data;
 public class ImageTourResponseDTO {
 
     private String id;
-    private String mainImage;
+    private String image;
     private String describe;
 
 }

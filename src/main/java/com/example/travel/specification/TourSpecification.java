@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 import com.example.travel.dto.request.SearchRequestDTO;
-import com.example.travel.entity.DepartureCheduleEntity;
+import com.example.travel.entity.DepartureScheduleEntity;
 import com.example.travel.entity.DestinationEntity;
 import com.example.travel.entity.TourEntity;
 
@@ -37,7 +37,7 @@ public class TourSpecification {
             Join<TourEntity, DestinationEntity> destinationJoin = root.join("destination", JoinType.INNER);
 
             // Dùng LEFT JOIN cho lịch khởi hành để tránh mất Tour nếu Tour đó chưa có lịch
-            Join<TourEntity, DepartureCheduleEntity> departureJoin = root.join("departureChedules", JoinType.LEFT);
+            Join<TourEntity, DepartureScheduleEntity> departureJoin = root.join("departureChedules", JoinType.LEFT);
 
             //Lọc theo danh sách thành phố (nếu có yêu cầu lọc)
             if(s.getCity() != null && !s.getCity().isEmpty()) {

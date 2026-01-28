@@ -33,7 +33,7 @@ public class ImageTourEntity {
     private TourEntity tour;
 
     @Column(name = "urlHinhAnh", nullable = false)
-    private String mainImage;
+    private String image;
 
     @Column(name = "moTa")
     private String describe;

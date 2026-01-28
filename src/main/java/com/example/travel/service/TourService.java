@@ -3,6 +3,7 @@ package com.example.travel.service;
 import java.util.List;
 import java.util.Map;
 
+import com.example.travel.dto.request.TourRequestDTO;
 import com.example.travel.dto.response.TourDetailResponseDTO;
 import com.example.travel.dto.response.TourResponseDTO;
 
@@ -19,4 +20,6 @@ public interface TourService {
     public Map<String, Object> getAllTourDangMo(int page, int size);
 
     public TourDetailResponseDTO getDetailTour(Integer id);
+
+    public String addTour(TourRequestDTO tourRequestDTO, Integer idDestination);
 }

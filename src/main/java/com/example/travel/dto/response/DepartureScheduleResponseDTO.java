@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class DepartureCheduleResponseDTO {
+public class DepartureScheduleResponseDTO {
 
     private Integer id;
     private LocalDate startDate;

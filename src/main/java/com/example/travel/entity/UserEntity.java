@@ -83,7 +83,7 @@ public class UserEntity {
     private LocalDateTime createAt;
 
     @OneToMany(mappedBy = "huongDanVien", fetch = FetchType.LAZY)
-    private List<DepartureCheduleEntity> schedules =new ArrayList<DepartureCheduleEntity>();
+    private List<DepartureScheduleEntity> departureSchedules =new ArrayList<DepartureScheduleEntity>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<BookingEntity> bookings = new ArrayList<BookingEntity>();

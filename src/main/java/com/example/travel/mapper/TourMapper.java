@@ -3,9 +3,10 @@ package com.example.travel.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import com.example.travel.dto.request.TourRequestDTO;
 import com.example.travel.dto.response.TourDetailResponseDTO;
 import com.example.travel.dto.response.TourResponseDTO;
-import com.example.travel.entity.DepartureCheduleEntity;
+import com.example.travel.entity.DepartureScheduleEntity;
 import com.example.travel.entity.TourEntity;
 import com.example.travel.projection.TourProjection;
 
@@ -32,8 +33,8 @@ public interface TourMapper {
         if (t == null) return null;
 
         // Lấy thông tin từ lịch trình đầu tiên (nếu có)
-        DepartureCheduleEntity firstSchedule = (t.getDepartureChedules() != null && !t.getDepartureChedules().isEmpty()) 
-                                            ? t.getDepartureChedules().get(0) 
+        DepartureScheduleEntity firstSchedule = (t.getDepartureSchedules() != null && !t.getDepartureSchedules().isEmpty()) 
+                                            ? t.getDepartureSchedules().get(0) 
                                             : null;
 
         return TourResponseDTO.builder()
@@ -61,4 +62,6 @@ public interface TourMapper {
     @Mapping(source = "destination.city", target = "city") 
     //map destinationName ở DestinationEntity vì trong TourEntity không có trường destinationName mà nó nằm ở DestinationEntity
     TourDetailResponseDTO toTourDetailResponseDTO(TourEntity tourEntity);
+
+    TourEntity toTourEntity(TourRequestDTO tourRequestDTO);
 }

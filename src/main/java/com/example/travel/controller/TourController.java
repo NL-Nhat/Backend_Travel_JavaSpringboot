@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.travel.dto.request.SearchRequestDTO;
+import com.example.travel.dto.request.TourRequestDTO;
 import com.example.travel.dto.response.TourDetailResponseDTO;
 import com.example.travel.dto.response.TourResponseDTO;
 import com.example.travel.service.SearchService;
@@ -12,6 +13,7 @@ import com.example.travel.service.TourService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Validated //thêm vào để sử dụng Bean Validation cho @PathVariable
@@ -71,5 +74,14 @@ public class TourController {
     @GetMapping("/search-tour")
     public ResponseEntity<List<TourResponseDTO>> searchTour(@RequestParam(value = "text") String text) {
         return ResponseEntity.ok(searchService.searchTour(text));
+    }
+
+    @PostMapping("/add-tour")
+    public ResponseEntity<String> addTour(@Valid @RequestBody TourRequestDTO t, @Valid @RequestParam(value = "idDestination") //Thêm @Valid để hiện lỗi đã đặt trong RequestDto
+                                        @NotNull(message = "id điểm đến ko đc null")
+                                        @Min(value = 1, message = "id điểm đến phải >= 1")    
+                                        Integer id) {
+        
+        return ResponseEntity.ok(tourService.addTour(t, id));
     }
 }

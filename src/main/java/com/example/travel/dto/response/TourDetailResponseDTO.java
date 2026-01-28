@@ -21,5 +21,5 @@ public class TourDetailResponseDTO {
     private BigDecimal childPrice;
 
     List<ImageTourResponseDTO> imageTours;
-    List<DepartureCheduleResponseDTO> departureChedules;
+    List<DepartureScheduleResponseDTO> departureSchedules;
 }
