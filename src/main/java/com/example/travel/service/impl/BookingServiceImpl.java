@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.travel.dto.request.BookingRequestDTO;
 import com.example.travel.dto.response.BookingResponseDTO;
 import com.example.travel.entity.BookingEntity;
-import com.example.travel.entity.DepartureCheduleEntity;
+import com.example.travel.entity.DepartureScheduleEntity;
 import com.example.travel.entity.UserEntity;
 import com.example.travel.mapper.BookingMapper;
 import com.example.travel.repository.BookingRepository;
@@ -56,11 +56,11 @@ public class BookingServiceImpl implements BookingService{
         UserEntity user = userRepository.findById(b.getIdUser())
             .orElseThrow(() -> new RuntimeException("Không tìm thấy user với id này"));
 
-        DepartureCheduleEntity d = departureCheduleRepository.findById(b.getIdDepartureChedule())
+        DepartureScheduleEntity d = departureCheduleRepository.findById(b.getIdDepartureSchedule())
             .orElseThrow(() -> new RuntimeException("Không tìm thấy lịch khởi hành với id này"));
 
         bookingEntity.setUser(user);
-        bookingEntity.setDepartureChedule(d);
+        bookingEntity.setDepartureSchedule(d);
         //Lưu mã vé ngẫu nhiên, unique
         bookingEntity.setIdTicket(generateUniqueTicketCode());
 

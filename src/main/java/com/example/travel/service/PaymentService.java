@@ -1,9 +1,10 @@
 package com.example.travel.service;
 
+import java.util.Map;
+
 import com.example.travel.dto.request.PaymentRequestDTO;
-import com.example.travel.dto.response.InfoTicketQR;
 
 public interface PaymentService {
 
-    public InfoTicketQR paymentBookTour(PaymentRequestDTO p);
+    public Map<String, Object> paymentBookTour(PaymentRequestDTO p);
 }

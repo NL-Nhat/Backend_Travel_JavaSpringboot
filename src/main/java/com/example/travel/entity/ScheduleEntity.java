@@ -33,7 +33,7 @@ public class ScheduleEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "maLichKhoiHanh")
-    private DepartureCheduleEntity departureChedule;
+    private DepartureScheduleEntity departureSchedule;
 
     @Column(name = "ngay", nullable = false)
     private LocalDate date;

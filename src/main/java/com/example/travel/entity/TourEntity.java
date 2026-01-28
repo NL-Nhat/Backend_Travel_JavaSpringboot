@@ -3,9 +3,7 @@ package com.example.travel.entity;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hibernate.annotations.DynamicUpdate;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -23,6 +21,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @DynamicUpdate
+// @DynamicInsert
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "Tour")
@@ -62,7 +61,7 @@ public class TourEntity {
     private String status;
 
     @OneToMany(mappedBy = "tour", fetch = FetchType.LAZY)
-    private List<DepartureCheduleEntity> departureChedules = new ArrayList<DepartureCheduleEntity>();
+    private List<DepartureScheduleEntity> departureSchedules = new ArrayList<DepartureScheduleEntity>();
 
     @OneToMany(mappedBy = "tour", fetch = FetchType.LAZY)
     private List<ImageTourEntity> imageTours = new ArrayList<ImageTourEntity>();

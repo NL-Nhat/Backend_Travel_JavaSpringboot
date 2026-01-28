@@ -1,5 +1,8 @@
 package com.example.travel.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
 import com.example.travel.dto.request.PaymentRequestDTO;
@@ -27,9 +30,13 @@ public class PaymentServiceImpl implements PaymentService{
 
     @Override
     @Transactional
-    public InfoTicketQR paymentBookTour(PaymentRequestDTO p) {
+    public Map<String, Object> paymentBookTour(PaymentRequestDTO p) {
         BookingEntity b = br.findById(p.getIdBooking())
                 .orElseThrow(() -> new RuntimeException("Ko tìm thấy tour đã đặt với id này"));
+
+        if(b.getBookingStatus().equals("Đã thanh toán")) {
+            throw new RuntimeException("Đơn đặt tour này đã được thanh toán");
+        }
 
         PaymentMethodEntity pme = pmr.findById(p.getIdMethod())
                 .orElseThrow(() -> new RuntimeException("Ko tìm thấy phương thức thanh toán với id này"));
@@ -46,6 +53,10 @@ public class PaymentServiceImpl implements PaymentService{
 
         InfoTicketQR infoTicketQR = bm.toInfoTicketQR(b);
 
-        return infoTicketQR;
+        Map<String, Object> result = new HashMap<>();
+        result.put("data", infoTicketQR);
+        result.put("message", "Thanh toán thành công");
+
+        return result;
     }
 }

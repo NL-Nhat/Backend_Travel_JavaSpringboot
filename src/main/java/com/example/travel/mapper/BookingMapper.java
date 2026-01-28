@@ -12,13 +12,13 @@ public interface BookingMapper {
 
     BookingEntity toBookingEntity(BookingRequestDTO bookingRequestDTO);
 
-    @Mapping(source = "departureChedule.startDate", target = "startDate")
-    @Mapping(source = "departureChedule.startTime", target = "startTime")
-    @Mapping(source = "departureChedule.tour.tourName", target = "tourName")
+    @Mapping(source = "departureSchedule.startDate", target = "startDate")
+    @Mapping(source = "departureSchedule.startTime", target = "startTime")
+    @Mapping(source = "departureSchedule.tour.tourName", target = "tourName")
     BookingResponseDTO toBookingResponseDTO(BookingEntity bookingEntity);
 
-    @Mapping(source = "departureChedule.startDate", target = "startDate")
-    @Mapping(source = "departureChedule.startTime", target = "startTime")
-    @Mapping(source = "departureChedule.tour.tourName", target = "tourName")
+    @Mapping(source = "departureSchedule.startDate", target = "startDate")
+    @Mapping(source = "departureSchedule.startTime", target = "startTime")
+    @Mapping(source = "departureSchedule.tour.tourName", target = "tourName")
     InfoTicketQR toInfoTicketQR(BookingEntity bookingEntity);
 }

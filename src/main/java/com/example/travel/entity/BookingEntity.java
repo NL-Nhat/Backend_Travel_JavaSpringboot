@@ -44,7 +44,7 @@ public class BookingEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "maLichKhoiHanh")
-    private DepartureCheduleEntity departureChedule;
+    private DepartureScheduleEntity departureSchedule;
 
     @Column(name = "maVe", nullable = false)
     private String idTicket;

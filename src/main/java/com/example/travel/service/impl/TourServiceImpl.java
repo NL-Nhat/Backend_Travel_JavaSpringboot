@@ -6,14 +6,18 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
+import com.example.travel.dto.request.TourRequestDTO;
 import com.example.travel.dto.response.TourDetailResponseDTO;
 import com.example.travel.dto.response.TourResponseDTO;
+import com.example.travel.entity.DestinationEntity;
 import com.example.travel.entity.TourEntity;
 import com.example.travel.mapper.TourMapper;
 import com.example.travel.projection.TourProjection;
+import com.example.travel.repository.DestinationRepository;
 import com.example.travel.repository.TourRepository;
 import com.example.travel.service.TourService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -22,6 +26,7 @@ public class TourServiceImpl implements TourService{
 
     private final TourMapper tourMapper;
     private final TourRepository tourRepository;
+    private final DestinationRepository destinationRepository;
 
     @Override
     public List<TourResponseDTO> getFiveTourHot() {
@@ -74,6 +79,20 @@ public class TourServiceImpl implements TourService{
         //tourDetailResponseDTO.setCity(tourEntity.getDestination().getCity());
         
         return tourDetailResponseDTO;
+    }
+
+    @Transactional
+    @Override
+    public String addTour(TourRequestDTO tourRequestDTO, Integer idDestination) {
+        DestinationEntity d = destinationRepository.findById(idDestination)
+            .orElseThrow(() -> new RuntimeException("Ko tìm thấy điểm đến với id này"));
+
+        TourEntity t = tourMapper.toTourEntity(tourRequestDTO);
+        t.setDestination(d);
+
+        tourRepository.save(t);
+
+        return "Thêm tour thành công";
     }
 
 }

@@ -26,7 +26,7 @@ public class BookingRequestDTO {
 
     @NotNull(message = "id lịch khởi hành không được null")
     @Min(value = 1, message = "id lich khởi hành phải >= 1")
-    private Integer idDepartureChedule;
+    private Integer idDepartureSchedule;
 
     @NotNull(message = "Số người lớn không được null")
     @Min(value = 1, message = "số người lớn phải >= 1")

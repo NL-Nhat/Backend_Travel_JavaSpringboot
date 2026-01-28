@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "LichKhoiHanh")
 @DynamicUpdate
 @DynamicInsert
-public class DepartureCheduleEntity {
+public class DepartureScheduleEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,10 +62,10 @@ public class DepartureCheduleEntity {
     @Column(name = "soLuongKhachDaDat")
     private Integer numberGuestBooked;
 
-    @OneToMany(mappedBy = "departureChedule", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "departureSchedule", fetch = FetchType.LAZY)
     private List<BookingEntity> bookings = new ArrayList<BookingEntity>();
 
-    @OneToMany(mappedBy = "departureChedule", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "departureSchedule", fetch = FetchType.LAZY)
     private List<ScheduleEntity> schedules = new ArrayList<ScheduleEntity>();
 
 }
