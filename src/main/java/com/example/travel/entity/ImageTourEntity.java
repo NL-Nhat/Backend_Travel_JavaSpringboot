@@ -1,7 +1,5 @@
 package com.example.travel.entity;
 
-import org.hibernate.annotations.DynamicUpdate;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -20,7 +18,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "HinhAnhTour")
-@DynamicUpdate
 public class ImageTourEntity {
 
     @Id

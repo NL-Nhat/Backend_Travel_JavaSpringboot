@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.travel.dto.request.DepartureScheduleRequestDTO;
 import com.example.travel.dto.request.ScheduleRequestDTO;
@@ -53,6 +54,7 @@ public class DepartureCheduleServiceImpl implements DepartureCheduleService{
     }
 
     @Override
+    @Transactional
     public String addDepartureChedule(List<DepartureScheduleRequestDTO> d, Integer idTour) {
         TourEntity tour = tourRepository.findById(idTour).orElseThrow(() -> new RuntimeException("Ko tìm thấy tour với id này"));
 
