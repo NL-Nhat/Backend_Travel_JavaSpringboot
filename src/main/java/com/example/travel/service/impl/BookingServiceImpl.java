@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.security.SecureRandom;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.travel.dto.request.BookingRequestDTO;
 import com.example.travel.dto.response.BookingResponseDTO;
@@ -15,8 +16,6 @@ import com.example.travel.repository.BookingRepository;
 import com.example.travel.repository.DepartureCheduleRepository;
 import com.example.travel.repository.UserRepository;
 import com.example.travel.service.BookingService;
-
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
