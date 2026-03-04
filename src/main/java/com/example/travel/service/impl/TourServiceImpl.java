@@ -83,8 +83,8 @@ public class TourServiceImpl implements TourService{
 
     @Transactional
     @Override
-    public String addTour(TourRequestDTO tourRequestDTO, Integer idDestination) {
-        DestinationEntity d = destinationRepository.findById(idDestination)
+    public String addTour(TourRequestDTO tourRequestDTO) {
+        DestinationEntity d = destinationRepository.findById(tourRequestDTO.getIdDestination())
             .orElseThrow(() -> new RuntimeException("Ko tìm thấy điểm đến với id này"));
 
         TourEntity t = tourMapper.toTourEntity(tourRequestDTO);
