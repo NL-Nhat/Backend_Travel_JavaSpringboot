@@ -36,4 +36,8 @@ public class TourRequestDTO {
     @Pattern(regexp = "^(Đang mở|Tạm dừng)$", 
          message = "Trạng thái chỉ có thể là 'Đang mở' hoặc 'Tạm dừng'")
     private String status;
+
+    @NotNull(message = "idDestination không được null")
+    @Min(value = 1, message = "idDestination phải >= 1")
+    private Integer idDestination;
 }
