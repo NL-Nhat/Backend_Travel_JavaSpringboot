@@ -83,16 +83,36 @@ public class TourServiceImpl implements TourService{
 
     @Transactional
     @Override
-    public String addTour(TourRequestDTO tourRequestDTO) {
+    public Integer addTour(TourRequestDTO tourRequestDTO) {
+
+        if(tourRepository.existsByTourName(tourRequestDTO.getTourName())) {
+            throw new RuntimeException("Tên tour '" + tourRequestDTO.getTourName() + "' đã tồn tại!");
+        }
+
         DestinationEntity d = destinationRepository.findById(tourRequestDTO.getIdDestination())
             .orElseThrow(() -> new RuntimeException("Ko tìm thấy điểm đến với id này"));
 
         TourEntity t = tourMapper.toTourEntity(tourRequestDTO);
         t.setDestination(d);
 
-        tourRepository.save(t);
+        TourEntity tourEntity = tourRepository.save(t);
 
-        return "Thêm tour thành công";
+        return tourEntity.getId();
+    }
+
+    @Transactional
+    @Override
+    public String updateTour(TourRequestDTO tourRequestDTO, Integer idTour) {
+
+        TourEntity tourEntity = tourRepository.findById(idTour).orElseThrow(() -> new RuntimeException("ko tìm thấy tour với id này"));
+        tourMapper.updateTourFromDto(tourRequestDTO, tourEntity);
+
+        DestinationEntity d = destinationRepository.findById(tourRequestDTO.getIdDestination())
+            .orElseThrow(() -> new RuntimeException("Ko tìm thấy điểm đến với id này"));
+
+        tourEntity.setDestination(d);
+
+        return "Sửa tour thành công";
     }
 
 }

@@ -21,5 +21,7 @@ public interface TourService {
 
     public TourDetailResponseDTO getDetailTour(Integer id);
 
-    public String addTour(TourRequestDTO tourRequestDTO);
+    public Integer addTour(TourRequestDTO tourRequestDTO);
+
+    public String updateTour(TourRequestDTO tourRequestDTO, Integer idTour);
 }
