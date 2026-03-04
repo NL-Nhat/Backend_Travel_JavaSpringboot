@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @Validated //thêm vào để sử dụng Bean Validation cho @PathVariable
 @RestController
@@ -77,12 +79,21 @@ public class TourController {
     }
 
     @PostMapping("/add-tour")
-    public ResponseEntity<String> addTour(@Valid @RequestBody TourRequestDTO t //Thêm @Valid để hiện lỗi đã đặt trong RequestDto, chỉ dùng cho @RequestBody
+    public ResponseEntity<Integer> addTour(@Valid @RequestBody TourRequestDTO t //Thêm @Valid để hiện lỗi đã đặt trong RequestDto, chỉ dùng cho @RequestBody
         //Vì @RequestParam luôn có thuộc tính required = true nên phải đặt lại thành false để @Notnull bắt lỗi được
         //Nếu ko thì cơ chế của Spring sẽ tự động chặn lại và ném ra lỗi: "Required request parameter... is not present". 
         //Nếu ko kiểm tra null(chỉ dùng @Min) thì ko cần thêm required = false vì cơ chế của Spring chỉ chặn null
         ) {
         
         return ResponseEntity.ok(tourService.addTour(t));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateTour(@Valid @RequestBody TourRequestDTO tourRequestDTO,
+         @PathVariable
+         @Min(value = 1, message = "idTour phải >= 1")
+         @NotNull(message = "idTour ko đc null") Integer id) {
+        
+        return ResponseEntity.ok(tourService.updateTour(tourRequestDTO, id));
     }
 }

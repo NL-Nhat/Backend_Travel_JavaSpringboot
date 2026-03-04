@@ -2,6 +2,7 @@ package com.example.travel.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import com.example.travel.dto.request.TourRequestDTO;
 import com.example.travel.dto.response.TourDetailResponseDTO;
@@ -64,4 +65,7 @@ public interface TourMapper {
     TourDetailResponseDTO toTourDetailResponseDTO(TourEntity tourEntity);
 
     TourEntity toTourEntity(TourRequestDTO tourRequestDTO);
+
+    // Hàm update
+    void updateTourFromDto(TourRequestDTO dto, @MappingTarget TourEntity entity);
 }

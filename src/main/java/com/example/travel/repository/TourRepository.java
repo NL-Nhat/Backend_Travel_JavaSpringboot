@@ -17,6 +17,8 @@ import com.example.travel.projection.TourProjection;
 @Repository
 public interface TourRepository extends JpaRepository<TourEntity, Integer>, JpaSpecificationExecutor<TourEntity> {
 
+    boolean existsByTourName(String tourName);
+    
     //sử dụng @Query với nativeQuery = true để gọi Stored Procedure (thủ tục) trong MySQL.
     @Query(value = "CALL sp_LayTop5TourBanChay()", nativeQuery = true)
     List<TourProjection> getFiveTourHot(); //Dùng projecttion thay cho Object để dễ map và dễ cập nhật khi thêm hoặc xóa cột
