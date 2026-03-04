@@ -92,7 +92,7 @@ public class BookingEntity {
     @Column(name = "gioiTinh", columnDefinition = "TINYINT DEFAULT 1")
     private Integer gender;
 
-    @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "booking") //@ManyToMany và @OnteToMany có fetchType mặc định là LAZY
     private List<PaymentEntity> payments = new ArrayList<PaymentEntity>();
 
 }

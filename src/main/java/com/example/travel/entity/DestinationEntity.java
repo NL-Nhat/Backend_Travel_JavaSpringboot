@@ -7,7 +7,6 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -39,6 +38,7 @@ public class DestinationEntity {
     @Column(name = "moTa")
     private String describe;
 
-    @OneToMany(mappedBy = "destination", fetch = FetchType.LAZY)
+    //@ManyToMany và @OnteToMany có fetchType mặc định là LAZY
+    @OneToMany(mappedBy = "destination")
     private List<TourEntity> tours = new ArrayList<TourEntity>(); 
 }

@@ -60,15 +60,16 @@ public class TourEntity {
     @Column(name = "trangThai")
     private String status;
 
-    @OneToMany(mappedBy = "tour", fetch = FetchType.LAZY)
+    // @ManyToMany và @OnteToMany có fetchType mặc định là LAZY
+    @OneToMany(mappedBy = "tour")
     private List<DepartureScheduleEntity> departureSchedules = new ArrayList<DepartureScheduleEntity>();
 
-    @OneToMany(mappedBy = "tour", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "tour")
     private List<ImageTourEntity> imageTours = new ArrayList<ImageTourEntity>();
 
-    @OneToMany(mappedBy = "tour", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "tour")
     private List<ReviewEntity> reviews = new ArrayList<ReviewEntity>();
 
-    @OneToMany(mappedBy = "tour", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "tour")
     private List<FavoriteTourEntity> favoriteTours = new ArrayList<FavoriteTourEntity>();
 }

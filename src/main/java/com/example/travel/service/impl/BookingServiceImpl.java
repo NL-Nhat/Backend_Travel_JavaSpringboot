@@ -50,6 +50,7 @@ public class BookingServiceImpl implements BookingService{
     }
 
     @Transactional
+    @Override
     public BookingResponseDTO bookTour(BookingRequestDTO b) {
         BookingEntity bookingEntity = bookingMapper.toBookingEntity(b);
 

@@ -55,7 +55,7 @@ public interface TourMapper {
     // Chuyển từ Request DTO sang Entity để lưu DB
     // User toUser(UserRegistrationRequest request);
 
-    // // Chuyển từ Entity sang Response DTO để trả về Client
+    // Chuyển từ Entity sang Response DTO để trả về Client
     // UserResponse toUserResponse(User user);
 
     //Tự động map qua TourDetailResponseDTO từ TourEntity

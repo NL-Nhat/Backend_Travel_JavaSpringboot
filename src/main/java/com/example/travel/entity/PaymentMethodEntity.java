@@ -8,7 +8,6 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,6 +37,6 @@ public class PaymentMethodEntity {
     @Column(name = "trangThai")
     private String status;
 
-    @OneToMany(mappedBy = "paymentMethod", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "paymentMethod") //@ManyToMany và @OnteToMany có fetchType mặc định là LAZY
     private List<PaymentEntity> payments = new ArrayList<PaymentEntity>();
 }

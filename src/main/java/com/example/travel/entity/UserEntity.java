@@ -11,7 +11,6 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -66,7 +65,7 @@ public class UserEntity {
     private String avatar;
 
     //tạo bảng trung gian quan hệ many to many tự động mà không cần tạo bảng thủ công
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(name = "NguoiDung_VaiTro", //tên bảng trung gian
                 /* khóa ngoại đầu tiên id của UserEntity, phần code này ở bảng nào thì để id của bảng đó đầu tiên */ 
                joinColumns = @JoinColumn(name = "maNguoiDung", nullable = false), 
@@ -82,16 +81,17 @@ public class UserEntity {
     @Column(name = "thoiGianTao", nullable = false, updatable = false)
     private LocalDateTime createAt;
 
-    @OneToMany(mappedBy = "huongDanVien", fetch = FetchType.LAZY)
+    // @ManyToMany và @OnteToMany có fetchType mặc định là LAZY
+    @OneToMany(mappedBy = "huongDanVien")
     private List<DepartureScheduleEntity> departureSchedules =new ArrayList<DepartureScheduleEntity>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user")
     private List<BookingEntity> bookings = new ArrayList<BookingEntity>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user")
     private List<ReviewEntity> reviews = new ArrayList<ReviewEntity>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user")
     private List<FavoriteTourEntity> favoriteTours = new ArrayList<FavoriteTourEntity>();
 
 }
