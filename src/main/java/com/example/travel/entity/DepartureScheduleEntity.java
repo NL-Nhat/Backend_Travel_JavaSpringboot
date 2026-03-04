@@ -62,10 +62,11 @@ public class DepartureScheduleEntity {
     @Column(name = "soLuongKhachDaDat")
     private Integer numberGuestBooked;
 
-    @OneToMany(mappedBy = "departureSchedule", fetch = FetchType.LAZY)
+    // @ManyToMany và @OnteToMany có fetchType mặc định là LAZY
+    @OneToMany(mappedBy = "departureSchedule")
     private List<BookingEntity> bookings = new ArrayList<BookingEntity>();
 
-    @OneToMany(mappedBy = "departureSchedule", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "departureSchedule")
     private List<ScheduleEntity> schedules = new ArrayList<ScheduleEntity>();
 
 }

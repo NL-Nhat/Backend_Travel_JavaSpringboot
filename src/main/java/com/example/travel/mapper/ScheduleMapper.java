@@ -2,6 +2,7 @@ package com.example.travel.mapper;
 
 import org.mapstruct.Mapper;
 
+import com.example.travel.dto.request.ScheduleRequestDTO;
 import com.example.travel.dto.response.ScheduleResponseDTO;
 import com.example.travel.entity.ScheduleEntity;
 
@@ -9,4 +10,5 @@ import com.example.travel.entity.ScheduleEntity;
 public interface ScheduleMapper {
 
     ScheduleResponseDTO toScheduleResponseDTO(ScheduleEntity scheduleEntity);
+
 }

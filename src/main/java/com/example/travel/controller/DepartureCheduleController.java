@@ -1,18 +1,25 @@
 package com.example.travel.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.travel.dto.request.DepartureScheduleRequestDTO;
 import com.example.travel.dto.response.InfoBookingResponseDTO;
 import com.example.travel.service.DepartureCheduleService;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Validated //thêm vào để sử dụng Bean Validation cho @PathVariable
 @RestController
@@ -29,5 +36,12 @@ public class DepartureCheduleController {
                                                                  Integer id) {
         return ResponseEntity.ok(departureCheduleService.getInfoBooking(id));
     }
+
+    @PostMapping("/add-departureshedule")
+    public ResponseEntity<String> addDepartureChedule(@RequestBody List<DepartureScheduleRequestDTO> deps, @RequestParam(value = "idTour") Integer idTour) {
+        
+        return ResponseEntity.ok(departureCheduleService.addDepartureChedule(deps, idTour));
+    }
+    
 
 }
