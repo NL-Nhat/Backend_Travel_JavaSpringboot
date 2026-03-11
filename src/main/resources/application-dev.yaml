@@ -6,3 +6,9 @@ spring:
     
     jpa:
         show-sql: true
+
+jwt:
+    #Tùy vào thuật toán mã hóa mà độ dài tối thiểu của key có thể khác nhau
+    secret: ChuoiBiMatSieuCapVipProVaPhaiRatLaDaiDeDamBaoAnToanChoThuatToanHS512
+    #Thời gian sống của token
+    expiration: 86400000
