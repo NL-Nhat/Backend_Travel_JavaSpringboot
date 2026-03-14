@@ -5,12 +5,10 @@ import java.io.IOException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-import com.example.travel.service.impl.UserServiceImpl;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
@@ -26,7 +24,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter { // OncePerRe
                                                                     // duy nhất một lần cho mỗi yêu cầu
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final UserServiceImpl userServiceImpl;
+    private final UserDetailsService userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -56,7 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter { // OncePerRe
 
             if (username != null) {
                 // Lấy thông tin chi tiết của user từ Database
-                UserDetails userDetails = userServiceImpl.loadUserByUsername(username);
+                UserDetails userDetails = userService.loadUserByUsername(username);
 
                 // Tạo "thẻ thông hành" (Authentication object)
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
