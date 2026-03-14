@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class JwtAuthenticationFilter extends OncePerRequestFilter { // OncePerRequestFilter -> đảm bảo bộ lọc chỉ chạy
                                                                     // duy nhất một lần cho mỗi yêu cầu
 
-    private final JwtProperties jwtProperties;
+    private final JwtTokenProvider jwtTokenProvider;
     private final UserServiceImpl userServiceImpl;
 
     @Override
@@ -47,7 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter { // OncePerRe
         try {
             // Giải mã và lấy username (Subject)
             Claims payload = Jwts.parserBuilder()
-                    .setSigningKey(jwtProperties.getSigningKey())
+                    .setSigningKey(jwtTokenProvider.getSigningKey())
                     .build()
                     .parseClaimsJws(jwtToken)
                     .getBody();

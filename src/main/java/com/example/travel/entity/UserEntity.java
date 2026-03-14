@@ -14,9 +14,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -64,15 +61,17 @@ public class UserEntity {
     @Column(name = "anhDaiDien")
     private String avatar;
 
-    //tạo bảng trung gian quan hệ many to many tự động mà không cần tạo bảng thủ công
-    @ManyToMany
-    @JoinTable(name = "NguoiDung_VaiTro", //tên bảng trung gian
-                /* khóa ngoại đầu tiên id của UserEntity, phần code này ở bảng nào thì để id của bảng đó đầu tiên */ 
-               joinColumns = @JoinColumn(name = "maNguoiDung", nullable = false), 
-               /* khóa ngoại thứ 2 id của RoleEntity*/ 
-               inverseJoinColumns = @JoinColumn(name = "maVaiTro", nullable = false)
-    )
-    private List<RoleEntity> roles = new ArrayList<>();
+    // //tạo bảng trung gian quan hệ many to many tự động mà không cần tạo bảng thủ công
+    // @ManyToMany
+    // @JoinTable(name = "NguoiDung_VaiTro", //tên bảng trung gian
+    //             /* khóa ngoại đầu tiên id của UserEntity, phần code này ở bảng nào thì để id của bảng đó đầu tiên */ 
+    //            joinColumns = @JoinColumn(name = "maNguoiDung", nullable = false), 
+    //            /* khóa ngoại thứ 2 id của RoleEntity*/ 
+    //            inverseJoinColumns = @JoinColumn(name = "maVaiTro", nullable = false)
+    // )
+    // private List<RoleEntity> roles = new ArrayList<>();
+    @Column(name = "vaiTro", nullable = false)
+    private String role;
 
     @Column(name = "trangThai", nullable = false)
     private String status;
