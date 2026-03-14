@@ -25,4 +25,6 @@ public class WebConfig implements WebMvcConfigurer{
                 .allowCredentials(true); // Cho phép gửi Cookie/Auth Header nếu cần
     }
 
+    
+
 }
