@@ -1,11 +1,18 @@
+server:
+  port: 8085
+
 spring:
   application:
     name: travel
 
-  profiles:
-    active: dev
-
+  datasource:
+    url: jdbc:mysql://localhost:3306/dbAppTravel?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Ho_Chi_Minh
+    username: root
+    password: 123456
+    
   jpa:
+    show-sql: true
+
     hibernate:
       ddl-auto: none #Không làm gì với CSDL
       # ddl-auto: create #Xóa toàn bộ bảng cũ → tạo lại từ đầu, chỉ xóa các bảng có trong phần Entity
@@ -14,5 +21,16 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
-server:
-  port: 8085
+security:
+  jwt:
+    # Khóa bí mật (Phải dài ít nhất 256-bit / 32 ký tự đối với thuật toán HS256)
+    secret-key: "ChuoiBiMatSieuCapVipProVaPhaiRatLaDaiDeDamBaoAnToanChoThuatToanHS256"
+      
+    # Thời gian sống của Access Token (tính bằng mili-giây)
+    # Ví dụ: 15 phút = 15 * 60 * 1000 = 900000
+    expiration: 900000
+      
+    refresh-token:
+      # Thời gian sống của Refresh Token (tính bằng mili-giây)
+      # Ví dụ: 7 ngày = 7 * 24 * 60 * 60 * 1000 = 604800000
+      expiration: 604800000

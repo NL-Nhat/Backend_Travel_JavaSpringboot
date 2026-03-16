@@ -3,7 +3,7 @@ package com.example.travel.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.travel.service.impl.UserServiceImpl;
+import com.example.travel.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequestMapping("/api/users")
 public class UserController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @GetMapping("/count-user")
     public ResponseEntity<?> getMethodName() {

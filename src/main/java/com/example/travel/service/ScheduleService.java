@@ -1,6 +1,8 @@
 package com.example.travel.service;
 
-public interface ScheduleService {
+import org.springframework.stereotype.Service;
 
-    
+@Service
+public class ScheduleService {
+
 }

@@ -9,10 +9,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.example.travel.service.JwtService;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,36 +27,43 @@ import lombok.RequiredArgsConstructor;
 public class JwtAuthenticationFilter extends OncePerRequestFilter { // OncePerRequestFilter -> đảm bảo bộ lọc chỉ chạy
                                                                     // duy nhất một lần cho mỗi yêu cầu
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtService jwtService;
     private final UserDetailsService userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        // Lấy token nguyen ban từ repuest (loại bỏ chữ bearer từ request)
-        String bearerToken = request.getHeader("Authorization");
 
-        // Kiểm tra xem header có chứa thông tin Bearer không
-        if (bearerToken == null || !bearerToken.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response); // Không có token? Cho đi tiếp tới Filter sau (sẽ bị chặn lại nếu
-                                                     // API yêu cầu quyền)
-            return;
+        String jwtToken = null;
+        
+        // Tìm Token trong danh sách Cookies của request
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("accessToken".equals(cookie.getName())) {
+                    jwtToken = cookie.getValue();
+                    break;
+                }
+            }
         }
 
-        // Lấy phần chuỗi từ ký tự thứ 7 trở đi để loại bỏ từ "bearer "
-        String jwtToken = bearerToken.substring(7);
+        // Nếu không có Cookie tên 'accessToken', cho đi tiếp (sẽ bị Spring Security chặn nếu API cần quyền)
+        if (jwtToken == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         try {
             // Giải mã và lấy username (Subject)
             Claims payload = Jwts.parserBuilder()
-                    .setSigningKey(jwtTokenProvider.getSigningKey())
+                    .setSigningKey(jwtService.getSigningKey())
                     .build()
                     .parseClaimsJws(jwtToken)
                     .getBody();
 
             String username = payload.getSubject();
 
-            if (username != null) {
+            // Nếu lấy được username và trong Context chưa có ai đăng nhập
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 // Lấy thông tin chi tiết của user từ Database
                 UserDetails userDetails = userService.loadUserByUsername(username);
 
@@ -66,7 +77,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter { // OncePerRe
                 // Gắn thêm thông tin chi tiết của request (như địa chỉ IP)
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                // Đưa thẻ thông hành cho Spring Security giữ
+                // Cấp quyền vào hệ thống
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
 

@@ -1,10 +1,26 @@
 package com.example.travel.service;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 import com.example.travel.dto.response.ReviewResponseDTO;
+import com.example.travel.mapper.ReviewMapper;
+import com.example.travel.projection.ReviewProjection;
+import com.example.travel.repository.ReviewRepository;
 
-public interface ReviewService {
+import lombok.RequiredArgsConstructor;
 
-    public List<ReviewResponseDTO> getTop3Review();
+@Service
+@RequiredArgsConstructor
+public class ReviewService {
+
+    private final ReviewRepository reviewRepository;
+    private final ReviewMapper reviewMapper;
+
+    public List<ReviewResponseDTO> getTop3Review() {
+        List<ReviewProjection> listReview = reviewRepository.getTop3Review();
+
+        return listReview.stream().map(reviewMapper::mapToReviewResponseDTO).collect(Collectors.toList());
+    }
+
 }

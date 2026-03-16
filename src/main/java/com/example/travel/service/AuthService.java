@@ -1,14 +1,13 @@
 package com.example.travel.service;
 
 import java.util.Collections;
-
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import com.example.travel.entity.UserEntity;
 import com.example.travel.repository.UserRepository;
@@ -16,7 +15,7 @@ import com.example.travel.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@Configuration
+@Service
 public class AuthService implements UserDetailsService{
 
     private final UserRepository userRepository;
