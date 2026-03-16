@@ -151,4 +151,29 @@ public class AuthController {
         return ResponseEntity.ok(userService.register(request));
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout() {
+        
+        // 1. Tạo một Cookie rỗng đè lên Access Token cũ
+        ResponseCookie cleanJwtCookie = ResponseCookie.from("accessToken", "") // Giá trị rỗng
+                .httpOnly(true)
+                .secure(false) // Nhớ đổi thành true khi lên HTTPS (Production)
+                .path("/")
+                .maxAge(0) // ⏳ Cốt lõi: Đặt tuổi thọ về 0 để trình duyệt xóa ngay lập tức
+                .build();
+
+        // 2. Tạo một Cookie rỗng đè lên Refresh Token cũ
+        ResponseCookie cleanRefreshCookie = ResponseCookie.from("refreshToken", "")
+                .httpOnly(true)
+                .secure(false)
+                .path("/api/auth/refresh") // Phải khớp với path lúc tạo thì mới ghi đè được
+                .maxAge(0)
+                .build();
+
+        // 3. Gửi 2 Cookie này về cho trình duyệt
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cleanJwtCookie.toString())
+                .header(HttpHeaders.SET_COOKIE, cleanRefreshCookie.toString())
+                .body("Đã đăng xuất thành công!");
+    }
 }
