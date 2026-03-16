@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -78,6 +79,7 @@ public class TourController {
         return ResponseEntity.ok(searchService.searchTour(text));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add-tour")
     public ResponseEntity<Integer> addTour(@Valid @RequestBody TourRequestDTO t //Thêm @Valid để hiện lỗi đã đặt trong RequestDto, chỉ dùng cho @RequestBody
         //Vì @RequestParam luôn có thuộc tính required = true nên phải đặt lại thành false để @Notnull bắt lỗi được
@@ -88,6 +90,7 @@ public class TourController {
         return ResponseEntity.ok(tourService.addTour(t));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<String> updateTour(@Valid @RequestBody TourRequestDTO tourRequestDTO,
          @PathVariable

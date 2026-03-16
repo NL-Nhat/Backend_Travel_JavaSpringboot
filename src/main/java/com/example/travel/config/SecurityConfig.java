@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -14,6 +15,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
+@EnableMethodSecurity //để dùng được @PreAuthorize(hasrole...) ở controller
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
@@ -36,6 +38,7 @@ public class SecurityConfig {
             // Cấu hình phân quyền các endpoint (URL)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll() // Cho phép tất cả vào các API đăng nhập/đăng ký
+                .requestMatchers("/api/tours/**").permitAll()
                 .anyRequest().authenticated() // Các API khác đều yêu cầu có thẻ thông hành
             )
             // Cấu hình quản lý Session
