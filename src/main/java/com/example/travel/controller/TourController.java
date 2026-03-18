@@ -69,7 +69,7 @@ public class TourController {
         return ResponseEntity.ok(tourService.getDetailTour(id));
     }
 
-    @GetMapping("/filter-tour")
+    @PostMapping("/filter-tour")
     public ResponseEntity<List<TourResponseDTO>> filterTour(@RequestBody SearchRequestDTO s) {
         return ResponseEntity.ok(searchService.filterTour(s));
     }
