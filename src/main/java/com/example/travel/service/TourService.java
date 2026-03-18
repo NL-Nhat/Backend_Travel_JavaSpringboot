@@ -7,13 +7,16 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.example.travel.dto.request.TourRequestDTO;
+import com.example.travel.dto.response.ReviewResponseDTO;
 import com.example.travel.dto.response.TourDetailResponseDTO;
 import com.example.travel.dto.response.TourResponseDTO;
 import com.example.travel.entity.DestinationEntity;
+import com.example.travel.entity.ReviewEntity;
 import com.example.travel.entity.TourEntity;
 import com.example.travel.mapper.TourMapper;
 import com.example.travel.projection.TourProjection;
 import com.example.travel.repository.DestinationRepository;
+import com.example.travel.repository.ReviewRepository;
 import com.example.travel.repository.TourRepository;
 
 import jakarta.transaction.Transactional;
@@ -26,6 +29,7 @@ public class TourService {
     private final TourMapper tourMapper;
     private final TourRepository tourRepository;
     private final DestinationRepository destinationRepository;
+    private final ReviewRepository reviewRepository;
 
     public List<TourResponseDTO> getFiveTourHot() {
         List<TourProjection> listTour = tourRepository.getFiveTourHot();
@@ -75,6 +79,41 @@ public class TourService {
         
         return tourDetailResponseDTO;
     }
+
+    public List<ReviewResponseDTO> getAllReview(Integer idTour) {
+
+        List<ReviewEntity> reviews = reviewRepository.findByTourId(idTour);
+
+        if (reviews.isEmpty()) {
+            throw new RuntimeException("Ko tim thay danh gia voi idtour nay");
+        }
+
+        // List<ReviewResponseDTO> results = new ArrayList<>();
+
+        // reviews.stream().forEach(review -> {
+        //     ReviewResponseDTO dto = new ReviewResponseDTO();
+        //     dto.setNumberStar(review.getNumberStar());
+        //     dto.setComment(review.getComment());
+        //     dto.setUserName(review.getUser().getUserName());
+        //     dto.setAvatar(review.getUser().getAvatar());
+        //     dto.setCreateAt(review.getCreateAt());
+
+        //     results.add(dto);
+        // });
+        
+        // return results;
+
+        return reviews.stream().map(review -> {
+            ReviewResponseDTO dto = new ReviewResponseDTO();
+            dto.setNumberStar(review.getNumberStar());
+            dto.setComment(review.getComment());
+            dto.setUserName(review.getUser().getUserName());
+            dto.setAvatar(review.getUser().getAvatar());
+            dto.setCreateAt(review.getCreateAt());
+            return dto;
+        }).toList();
+    }
+
 
     @Transactional
     public Integer addTour(TourRequestDTO tourRequestDTO) {

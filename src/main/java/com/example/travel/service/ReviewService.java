@@ -22,5 +22,4 @@ public class ReviewService {
 
         return listReview.stream().map(reviewMapper::mapToReviewResponseDTO).collect(Collectors.toList());
     }
-
 }

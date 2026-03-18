@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.travel.dto.request.SearchRequestDTO;
 import com.example.travel.dto.request.TourRequestDTO;
+import com.example.travel.dto.response.ReviewResponseDTO;
 import com.example.travel.dto.response.TourDetailResponseDTO;
 import com.example.travel.dto.response.TourResponseDTO;
 import com.example.travel.service.SearchService;
@@ -16,6 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +60,15 @@ public class TourController {
     @Operation(summary = "Đếm số tour")
     public ResponseEntity<Long> countNumberTour() {
         return ResponseEntity.ok(tourService.countAllTour());
+    }
+
+    @GetMapping("/all-review")
+    public ResponseEntity<List<ReviewResponseDTO>> getAllReview(@RequestParam(value = "id", required = false)
+                                                                @NotNull(message = "id tour ko được null")
+                                                                @Positive(message = "id phải > 0")
+                                                                Integer id) {
+
+        return ResponseEntity.ok(tourService.getAllReview(id));
     }
 
     @GetMapping("/{id}")

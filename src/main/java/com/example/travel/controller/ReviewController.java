@@ -20,5 +20,5 @@ public class ReviewController {
     public ResponseEntity<?> getTop3Review() {
         return ResponseEntity.ok(reviewService.getTop3Review());
     }
-
+    
 }
