@@ -11,6 +11,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,18 +29,15 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable()) // Tắt CSRF vì dùng JWT
 
-            .cors(cors -> cors.configurationSource(request -> {
-                CorsConfiguration config = new CorsConfiguration();
-                config.setAllowedOrigins(List.of("*"));
-                config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                config.setAllowedHeaders(List.of("*"));
-                return config;
-            }))
+            // Gọi cấu hình CORS đã được tách ra thành Bean ở dưới
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
             // Cấu hình phân quyền các endpoint (URL)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll() // Cho phép tất cả vào các API đăng nhập/đăng ký
+                .requestMatchers("/api/users/**").permitAll()
                 .requestMatchers("/api/tours/**").permitAll()
+                .requestMatchers("/api/reviews/**").permitAll()
                 .anyRequest().authenticated() // Các API khác đều yêu cầu có thẻ thông hành
             )
             // Cấu hình quản lý Session
@@ -49,5 +48,26 @@ public class SecurityConfig {
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    // Cấu hình CORS
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        
+        // Bắt buộc phải ghi rõ domain của React, KHÔNG dùng "*" khi có Cookie
+        config.setAllowedOrigins(List.of("http://localhost:5173")); 
+        
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        
+        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
+        
+        // Cho phép nhận và gửi HTTP-Only Cookie
+        config.setAllowCredentials(true); 
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config); // Áp dụng cấu hình này cho mọi API
+        
+        return source;
     }
 }
