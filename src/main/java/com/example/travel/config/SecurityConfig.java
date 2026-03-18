@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll() // Cho phép tất cả vào các API đăng nhập/đăng ký
                 .requestMatchers("/api/users/**").permitAll()
                 .requestMatchers("/api/tours/**").permitAll()
+                .requestMatchers("/api/schedules/**").permitAll()
                 .requestMatchers("/api/reviews/**").permitAll()
                 .anyRequest().authenticated() // Các API khác đều yêu cầu có thẻ thông hành
             )

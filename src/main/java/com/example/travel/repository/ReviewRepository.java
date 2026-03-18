@@ -15,4 +15,6 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer>{
     //sử dụng @Query với nativeQuery = true để gọi Stored Procedure (thủ tục) trong MySQL.
     @Query(value = "CALL sp_LayTop3DanhGiaNoiBat()", nativeQuery = true)
     List<ReviewProjection> getTop3Review();
+
+    List<ReviewEntity> findByTourId(Integer idTour);
 }
