@@ -11,8 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import com.example.travel.entity.UserEntity;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -61,10 +59,6 @@ public class JwtService {
             .getAuthority();
 
         claims.put("role", role);
-
-        if (userDetails instanceof UserEntity) {
-            claims.put("id", ((UserEntity) userDetails).getId());
-        }
 
         return Jwts.builder()
                 .setClaims(claims) // Có thể thêm các thông tin phụ (role, email...) vào đây

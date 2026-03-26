@@ -21,10 +21,11 @@ public class UserService {
         return userRepository.count(); 
     }
 
-    public UserResponseDTO getProfile(Integer id) {
-        UserEntity user = userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Ko tim thay User voi id nay"));
-
+    public UserResponseDTO getProfile(String userName) {
+        
+        UserEntity user = userRepository.findByUserName(userName)
+            .orElseThrow(() -> new RuntimeException("ko tim thay user voi userName nay."));
+            
         UserResponseDTO dto = new UserResponseDTO();
 
         dto.setAddress(user.getAddress());
