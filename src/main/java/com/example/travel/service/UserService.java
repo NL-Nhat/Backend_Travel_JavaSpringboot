@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.travel.dto.request.RegisterRequestDTO;
+import com.example.travel.dto.response.UserResponseDTO;
 import com.example.travel.entity.UserEntity;
 import com.example.travel.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,23 @@ public class UserService {
 
     public long countNumberUser() {
         return userRepository.count(); 
+    }
+
+    public UserResponseDTO getProfile(Integer id) {
+        UserEntity user = userRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Ko tim thay User voi id nay"));
+
+        UserResponseDTO dto = new UserResponseDTO();
+
+        dto.setAddress(user.getAddress());
+        dto.setAvatar(user.getAvatar());
+        dto.setDoB(user.getDoB());
+        dto.setEmail(user.getEmail());
+        dto.setFullName(user.getFullName());
+        dto.setGender(user.getGender());
+        dto.setPhoneNumber(user.getPhoneNumber());
+
+        return dto;
     }
 
     @Transactional

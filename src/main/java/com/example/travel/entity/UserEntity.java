@@ -3,11 +3,15 @@ package com.example.travel.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,7 +31,7 @@ import lombok.NoArgsConstructor;
 @DynamicInsert // Chỉ insert những trường khách hàng có nhập
 @DynamicUpdate // Chỉ update những trường có thay đổi (rất tốt cho hiệu suất)
 @Table(name = "NguoiDung")
-public class UserEntity {
+public class UserEntity implements UserDetails{
 
     @Id
     @Column(name = "maNguoiDung")
@@ -92,5 +96,40 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user")
     private List<FavoriteTourEntity> favoriteTours = new ArrayList<FavoriteTourEntity>();
+
+    @Override
+    public String getUsername() {
+        return userName;
+    }
+
+    @Override
+    public String getPassword() {
+        return passWord;
+    }
+    
+    @Override
+    public boolean isAccountNonExpired() {
+        return true; // Tài khoản không bao giờ hết hạn
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return status != null && status.equalsIgnoreCase("HoatDong");
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true; // Mật khẩu không bao giờ hết hạn
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    public Collection <? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role));
+    }
 
 }
