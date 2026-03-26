@@ -29,8 +29,8 @@ public class AuthService implements UserDetailsService{
             throw new DisabledException("Tài khoản của bạn đã bị khóa");
         }
 
-        return new User(user.getUsername(),
-        user.getPassword(), 
+        return new User(user.getUserName(),
+        user.getPassWord(), 
         Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()))
         );
     }
