@@ -10,6 +10,9 @@ import com.example.travel.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -78,11 +81,17 @@ public class AuthController {
                 .maxAge(jwtService.getRefreshExpiration() / 1000) // Sống 7 ngày
                 .build();
 
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("message", "Đăng nhập thành công!");
+            
+            String role = userDetails.getAuthorities().iterator().next().getAuthority();
+            responseBody.put("role", role);
+
             // Gắn Cookie vào Header của Response gửi về cho Trình duyệt
             return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .header(HttpHeaders.SET_COOKIE, refreshCookie.toString())
-                .body("Đăng nhập thành công!");
+                .body(responseBody);
 
         } catch (BadCredentialsException e) {
             // Lỗi này xảy ra khi sai tên đăng nhập hoặc sai mật khẩu
