@@ -18,5 +18,5 @@ public class UserResponseDTO {
     private Integer gender;
     private String phoneNumber;
     private LocalDate doB;
-    
+
 }
