@@ -3,6 +3,7 @@ package com.example.travel.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import com.example.travel.dto.request.TourRequestDTO;
 import com.example.travel.dto.response.TourDetailResponseDTO;
@@ -11,7 +12,8 @@ import com.example.travel.entity.DepartureScheduleEntity;
 import com.example.travel.entity.TourEntity;
 import com.example.travel.projection.TourProjection;
 
-@Mapper(componentModel = "spring") // Để Spring quản lý Mapper như một Bean
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE) 
+// Để Spring quản lý Mapper như một Bean, bỏ qua các giá trị null
 public interface TourMapper {
 
     public default TourResponseDTO mapToTourResponseDTO_Projection(TourProjection t) {

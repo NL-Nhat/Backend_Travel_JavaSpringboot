@@ -1,12 +1,17 @@
 package com.example.travel.service;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.travel.dto.request.RegisterRequestDTO;
+import com.example.travel.dto.request.UserRequestDTO;
 import com.example.travel.dto.response.UserResponseDTO;
 import com.example.travel.entity.UserEntity;
+import com.example.travel.mapper.UserMapper;
 import com.example.travel.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -16,6 +21,8 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CloudinaryService cloudinaryService;
+    private final UserMapper userMapper;
 
     public long countNumberUser() {
         return userRepository.count(); 
@@ -40,23 +47,53 @@ public class UserService {
     }
 
     @Transactional
-    public String register(RegisterRequestDTO request) {
-        try {
-            UserEntity userEntity = new UserEntity();
+    public Map<String, ?> updateProfile(MultipartFile file, UserRequestDTO dto, String userName) {
+        UserEntity user = userRepository.findByUserName(userName)
+            .orElseThrow(() -> new RuntimeException("ko tim thay user voi userName nay."));
 
-            userEntity.setFullName(request.getFullName());
-            userEntity.setUserName(request.getUserName());
-            userEntity.setPassWord(passwordEncoder.encode(request.getPassWord()));
-            userEntity.setGender(request.getGender());
-            userEntity.setPhoneNumber(request.getPhoneNumber());
-            userEntity.setEmail(request.getEmail());
+        userMapper.updateUserFromDto(dto, user);
 
-            userRepository.save(userEntity);
+        if (file != null && !file.isEmpty()) {
+            try {
+                String fileName = "avatar" + System.currentTimeMillis();
+                String imageURL = cloudinaryService.uploadImage(file, fileName);
 
-            return "Đăng ký thành công";
-
-        } catch (Exception e) {
-            throw new RuntimeException("Username, email hoặc số điện thoại đã tồn tại");
+                user.setAvatar(imageURL);
+            } catch (Exception e) {
+                throw new RuntimeException("Upload ảnh thất bại: " + e.getMessage(), e);
+            }
         }
+
+        userRepository.save(user);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("id", user.getId());
+        result.put("message", "Update thành công");
+
+        return result;
+    }
+
+    @Transactional
+    public String register(RegisterRequestDTO request) {
+
+        if (userRepository.existsByUserName(request.getUserName())) {
+            throw new RuntimeException("Username đã tồn tại");
+        }
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("Email đã tồn tại");
+        }
+
+        UserEntity userEntity = new UserEntity();
+
+        userEntity.setUserName(request.getUserName());
+        userEntity.setFullName(request.getFullName());
+        userEntity.setPassWord(passwordEncoder.encode(request.getPassWord()));
+        userEntity.setGender(request.getGender());
+        userEntity.setPhoneNumber(request.getPhoneNumber());
+        userEntity.setEmail(request.getEmail());
+
+        userRepository.save(userEntity);
+
+        return "Đăng ký thành công";
     }
 }

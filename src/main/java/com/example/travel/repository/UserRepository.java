@@ -10,4 +10,8 @@ import com.example.travel.entity.UserEntity;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Integer>{
     Optional<UserEntity> findByUserName(String userName);
+
+    public Boolean existsByUserName(String userName);
+
+    public Boolean existsByEmail(String email);
 }
