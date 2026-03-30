@@ -2,12 +2,15 @@ package com.example.travel.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+
 import com.example.travel.dto.request.BookingRequestDTO;
 import com.example.travel.dto.response.BookingResponseDTO;
 import com.example.travel.dto.response.InfoTicketQR;
 import com.example.travel.entity.BookingEntity;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE) 
+// Để Spring quản lý Mapper như một Bean, bỏ qua các giá trị null
 public interface BookingMapper {
 
     BookingEntity toBookingEntity(BookingRequestDTO bookingRequestDTO);

@@ -17,12 +17,10 @@ public class CloudinaryService {
 
     private final Cloudinary cloudinary;
 
-    public String uploadImage(MultipartFile file, String folder, String fileName) throws IOException {
-
-        String publicId = folder + "/" + fileName;
+    public String uploadImage(MultipartFile file, String fileName) throws IOException {
 
         Map params = ObjectUtils.asMap(
-            "public_id", publicId,
+            "public_id", fileName,
             "overwrite", true, // Nếu trùng tên thì ghi đè
             "resource_type", "image"
         );
@@ -33,15 +31,15 @@ public class CloudinaryService {
         return uploadResult.get("secure_url").toString();
     }
 
-    public void deleteImage(String fileNameInDb) throws IOException {
-        if (fileNameInDb == null || fileNameInDb.isEmpty()) return;
+    // public void deleteImage(String fileNameInDb) throws IOException {
+    //     if (fileNameInDb == null || fileNameInDb.isEmpty()) return;
 
-        // Lấy public_id bằng cách bỏ đuôi .jpg
-        String publicId = fileNameInDb.contains(".") 
-                        ? fileNameInDb.substring(0, fileNameInDb.lastIndexOf(".")) 
-                        : fileNameInDb;
+    //     // Lấy public_id bằng cách bỏ đuôi .jpg
+    //     String publicId = fileNameInDb.contains(".") 
+    //                     ? fileNameInDb.substring(0, fileNameInDb.lastIndexOf(".")) 
+    //                     : fileNameInDb;
 
-        // Gọi API xóa của Cloudinary
-        cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
-    }
+    //     // Gọi API xóa của Cloudinary
+    //     cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+    // }
 }
