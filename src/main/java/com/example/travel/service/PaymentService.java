@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.example.travel.dto.request.PaymentRequestDTO;
-import com.example.travel.dto.response.InfoTicketQR;
+import com.example.travel.dto.response.InfoTicketQRResponseDTO;
 import com.example.travel.entity.BookingEntity;
 import com.example.travel.entity.PaymentEntity;
 import com.example.travel.entity.PaymentMethodEntity;
@@ -49,7 +49,7 @@ public class PaymentService {
         b.setPaymentStatus("Đã thanh toán");
         br.save(b);
 
-        InfoTicketQR infoTicketQR = bm.toInfoTicketQR(b);
+        InfoTicketQRResponseDTO infoTicketQR = bm.toInfoTicketQR(b);
 
         Map<String, Object> result = new HashMap<>();
         result.put("data", infoTicketQR);

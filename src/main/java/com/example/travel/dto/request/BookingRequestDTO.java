@@ -20,10 +20,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BookingRequestDTO {
 
-    @NotNull(message = "idUser không được null")
-    @Min(value = 1, message = "idUser phải >= 1")
-    private Integer idUser;
-
     @NotNull(message = "id lịch khởi hành không được null")
     @Min(value = 1, message = "id lich khởi hành phải >= 1")
     private Integer idDepartureSchedule;

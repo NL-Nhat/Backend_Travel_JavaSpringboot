@@ -16,7 +16,7 @@ public class ReviewResponseDTO {
     private Integer numberStar;
     private String tourName;
     private String comment;
-    private String userName;
+    private String fullName;
     private String avatar;
     private LocalDateTime createAt;
 }

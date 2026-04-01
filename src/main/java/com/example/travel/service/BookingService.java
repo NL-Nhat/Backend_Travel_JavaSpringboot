@@ -48,13 +48,13 @@ public class BookingService{
     }
 
     @Transactional
-    public BookingResponseDTO bookTour(BookingRequestDTO b) {
-        BookingEntity bookingEntity = bookingMapper.toBookingEntity(b);
+    public BookingResponseDTO bookTour(BookingRequestDTO request, String userName) {
+        BookingEntity bookingEntity = bookingMapper.toBookingEntity(request);
 
-        UserEntity user = userRepository.findById(b.getIdUser())
-            .orElseThrow(() -> new RuntimeException("Không tìm thấy user với id này"));
+        UserEntity user = userRepository.findByUserName(userName)
+            .orElseThrow(() -> new RuntimeException("Không tìm thấy user với userName này"));
 
-        DepartureScheduleEntity d = departureCheduleRepository.findById(b.getIdDepartureSchedule())
+        DepartureScheduleEntity d = departureCheduleRepository.findById(request.getIdDepartureSchedule())
             .orElseThrow(() -> new RuntimeException("Không tìm thấy lịch khởi hành với id này"));
 
         bookingEntity.setUser(user);
@@ -67,8 +67,8 @@ public class BookingService{
         BigDecimal childPrice = d.getTour().getChildPrice();
         //Vì BigDecimal không có phép tính + - * / nên phải dùng meThod
         // Không thể + - * / Integer với BigDecimal nên phải ép kiểu qua BigDecimal
-        BigDecimal totalAdult = adultPrice.multiply(BigDecimal.valueOf(b.getAdultNumber())); //ép liểu b.getAdultNumber() từ Integer sang BigDecimal 
-        BigDecimal totalChild = childPrice.multiply(BigDecimal.valueOf(b.getChildNumber())); // multiply = phép nhân
+        BigDecimal totalAdult = adultPrice.multiply(BigDecimal.valueOf(request.getAdultNumber())); //ép liểu b.getAdultNumber() từ Integer sang BigDecimal 
+        BigDecimal totalChild = childPrice.multiply(BigDecimal.valueOf(request.getChildNumber())); // multiply = phép nhân
         BigDecimal totalAmount = totalAdult.add(totalChild); // add = phép cộng, lấy totalAdult + totalChild
         bookingEntity.setTotalAmount(totalAmount);
 

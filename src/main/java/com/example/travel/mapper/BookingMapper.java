@@ -6,7 +6,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import com.example.travel.dto.request.BookingRequestDTO;
 import com.example.travel.dto.response.BookingResponseDTO;
-import com.example.travel.dto.response.InfoTicketQR;
+import com.example.travel.dto.response.InfoTicketQRResponseDTO;
 import com.example.travel.entity.BookingEntity;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE) 
@@ -23,5 +23,5 @@ public interface BookingMapper {
     @Mapping(source = "departureSchedule.startDate", target = "startDate")
     @Mapping(source = "departureSchedule.startTime", target = "startTime")
     @Mapping(source = "departureSchedule.tour.tourName", target = "tourName")
-    InfoTicketQR toInfoTicketQR(BookingEntity bookingEntity);
+    InfoTicketQRResponseDTO toInfoTicketQR(BookingEntity bookingEntity);
 }

@@ -107,7 +107,7 @@ public class TourService {
             ReviewResponseDTO dto = new ReviewResponseDTO();
             dto.setNumberStar(review.getNumberStar());
             dto.setComment(review.getComment());
-            dto.setUserName(review.getUser().getUserName());
+            dto.setFullName(review.getUser().getFullName());
             dto.setAvatar(review.getUser().getAvatar());
             dto.setCreateAt(review.getCreateAt());
             return dto;

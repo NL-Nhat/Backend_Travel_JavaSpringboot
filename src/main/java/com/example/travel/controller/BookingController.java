@@ -1,6 +1,8 @@
 package com.example.travel.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +22,15 @@ public class BookingController {
 
     private final BookingService bookingService;
 
-    @PostMapping("/book-tour")
-    public ResponseEntity<BookingResponseDTO> bookTour(@Valid @RequestBody BookingRequestDTO b) {
-        return ResponseEntity.ok(bookingService.bookTour(b));
+    @PostMapping
+    public ResponseEntity<BookingResponseDTO> bookTour(@Valid @RequestBody BookingRequestDTO request,
+                                                        @AuthenticationPrincipal UserDetails userDetails) {
+
+        String userName = userDetails.getUsername();
+
+        BookingResponseDTO response = bookingService.bookTour(request, userName);
+
+        return ResponseEntity.status(201).body(response);  //Khi tạo mới resource → nên dùng 201 Created
     }
 
     // public void checkError(BookingRequestDTO b) throws FieldRequiredException {
