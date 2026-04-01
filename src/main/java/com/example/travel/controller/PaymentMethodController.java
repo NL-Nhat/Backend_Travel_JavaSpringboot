@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.travel.dto.response.PaymentMethodResponseDTO;
@@ -17,11 +18,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PaymentMethodController {
 
-    private final PaymentMethodService ps;
+    private final PaymentMethodService paymentMethodService;
 
-    @GetMapping("/all-by-status")
-    public ResponseEntity<List<PaymentMethodResponseDTO>> getAllPaymentMethodByStatus() {
-        return ResponseEntity.ok(ps.getAllPaymentMethodByStatus("Hoạt động"));
+    @GetMapping
+    public ResponseEntity<List<PaymentMethodResponseDTO>> getByStatus(@RequestParam String status) {
+
+        List<PaymentMethodResponseDTO> list = paymentMethodService.getAllPaymentMethodByStatus(status);
+
+        if (list.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(list);
     }
-
 }
