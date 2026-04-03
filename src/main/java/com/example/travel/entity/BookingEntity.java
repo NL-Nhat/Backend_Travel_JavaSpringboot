@@ -46,7 +46,7 @@ public class BookingEntity {
     @JoinColumn(name = "maLichKhoiHanh")
     private DepartureScheduleEntity departureSchedule;
 
-    @Column(name = "maVe", nullable = false)
+    @Column(name = "maVe")
     private String idTicket;
 
     @Column(name = "soNguoiLon", nullable = false)
