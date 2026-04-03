@@ -19,7 +19,7 @@ public class PaymentController {
 
     private final PaymentService ps;
 
-    @PostMapping("/payment-book-tour")
+    @PostMapping
     public ResponseEntity<Map<String, Object>> paymentBookTour(@RequestBody PaymentRequestDTO p) {
         return ResponseEntity.ok(ps.paymentBookTour(p));
     }

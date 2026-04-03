@@ -1,5 +1,6 @@
 package com.example.travel.service;
 
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,34 +23,56 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PaymentService {
 
-    private final PaymentRepository pr;
-    private final BookingMapper bm;
-    private final BookingRepository br;
-    private final PaymentMethodRepository pmr;
+    private final PaymentRepository paymentRepository;
+    private final BookingMapper bookingMapper;
+    private final BookingRepository bookingRepository;
+    private final PaymentMethodRepository paymentMethodRepository;
+
+    //Dùng để tạo mã vé điện tử ngẫu nhiên
+    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static final int TICKET_LENGTH = 10;
+    private static final SecureRandom RANDOM = new SecureRandom();
+
+    private String generateUniqueTicketCode() {
+        String code;
+        do {
+            code = generateRandomCode();
+        } while (bookingRepository.existsByIdTicket(code));
+        return code;
+    }
+
+    private String generateRandomCode() {
+        StringBuilder sb = new StringBuilder(TICKET_LENGTH);
+        for (int i = 0; i < TICKET_LENGTH; i++) {
+            sb.append(CHARACTERS.charAt(RANDOM.nextInt(CHARACTERS.length())));
+        }
+        return sb.toString();
+    }
 
     @Transactional
-    public Map<String, Object> paymentBookTour(PaymentRequestDTO p) {
-        BookingEntity b = br.findById(p.getIdBooking())
+    public Map<String, Object> paymentBookTour(PaymentRequestDTO request) {
+        BookingEntity bookingEntity = bookingRepository.findById(request.getIdBooking())
                 .orElseThrow(() -> new RuntimeException("Ko tìm thấy tour đã đặt với id này"));
 
-        if(b.getBookingStatus().equals("Đã thanh toán")) {
+        if(bookingEntity.getBookingStatus().equals("Đã thanh toán")) {
             throw new RuntimeException("Đơn đặt tour này đã được thanh toán");
         }
 
-        PaymentMethodEntity pme = pmr.findById(p.getIdMethod())
+        PaymentMethodEntity paymentMethodEntity = paymentMethodRepository.findById(request.getIdMethod())
                 .orElseThrow(() -> new RuntimeException("Ko tìm thấy phương thức thanh toán với id này"));
 
-        PaymentEntity pe = new PaymentEntity();
-        pe.setBooking(b);
-        pe.setPaymentMethod(pme);
-        pe.setAmount(p.getTotalAmount());
+        PaymentEntity paymentEntity = new PaymentEntity();
+        paymentEntity.setBooking(bookingEntity);
+        paymentEntity.setPaymentMethod(paymentMethodEntity);
+        paymentEntity.setAmount(request.getTotalAmount());
 
-        pr.save(pe);
+        paymentRepository.save(paymentEntity);
 
-        b.setPaymentStatus("Đã thanh toán");
-        br.save(b);
+        bookingEntity.setPaymentStatus("Đã thanh toán");
+        bookingEntity.setIdTicket(generateUniqueTicketCode());
+        bookingRepository.save(bookingEntity);
 
-        InfoTicketQRResponseDTO infoTicketQR = bm.toInfoTicketQR(b);
+        InfoTicketQRResponseDTO infoTicketQR = bookingMapper.toInfoTicketQR(bookingEntity);
 
         Map<String, Object> result = new HashMap<>();
         result.put("data", infoTicketQR);

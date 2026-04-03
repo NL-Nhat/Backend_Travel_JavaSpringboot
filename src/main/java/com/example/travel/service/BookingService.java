@@ -1,8 +1,6 @@
 package com.example.travel.service;
 
 import java.math.BigDecimal;
-import java.security.SecureRandom;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,27 +24,6 @@ public class BookingService{
     private final UserRepository userRepository;
     private final DepartureCheduleRepository departureCheduleRepository;
 
-    //Dùng để tạo mã vé điện tử ngẫu nhiên
-    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    private static final int TICKET_LENGTH = 10;
-    private static final SecureRandom RANDOM = new SecureRandom();
-
-    private String generateUniqueTicketCode() {
-        String code;
-        do {
-            code = generateRandomCode();
-        } while (bookingRepository.existsByIdTicket(code));
-        return code;
-    }
-
-    private String generateRandomCode() {
-        StringBuilder sb = new StringBuilder(TICKET_LENGTH);
-        for (int i = 0; i < TICKET_LENGTH; i++) {
-            sb.append(CHARACTERS.charAt(RANDOM.nextInt(CHARACTERS.length())));
-        }
-        return sb.toString();
-    }
-
     @Transactional
     public BookingResponseDTO bookTour(BookingRequestDTO request, String userName) {
         BookingEntity bookingEntity = bookingMapper.toBookingEntity(request);
@@ -59,8 +36,6 @@ public class BookingService{
 
         bookingEntity.setUser(user);
         bookingEntity.setDepartureSchedule(d);
-        //Lưu mã vé ngẫu nhiên, unique
-        bookingEntity.setIdTicket(generateUniqueTicketCode());
 
         //Lưu tổng tiền
         BigDecimal adultPrice = d.getTour().getAdultPrice();

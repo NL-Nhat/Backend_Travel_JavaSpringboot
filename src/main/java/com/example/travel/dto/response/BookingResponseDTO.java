@@ -12,7 +12,6 @@ import lombok.Data;
 public class BookingResponseDTO {
 
     private Integer id;
-    private String idTicket;
     private LocalDate startDate;
     private LocalTime startTime;
     private String tourName;

@@ -1,8 +1,5 @@
 package com.example.travel.dto.response;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,8 +7,7 @@ import lombok.Data;
 @Builder
 public class InfoTicketQRResponseDTO {
 
-    private Integer idTicket;
+    private Integer idBooking;
+    private String idTicket;
     private String tourName;
-    private LocalDate startDate;
-    private LocalTime startTime;
 }

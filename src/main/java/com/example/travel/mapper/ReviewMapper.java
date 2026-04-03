@@ -9,12 +9,12 @@ public class ReviewMapper {
 
     public ReviewResponseDTO mapToReviewResponseDTO(ReviewProjection r) {
         return ReviewResponseDTO.builder()
-                .numberStar(r.getNumberStar())
-                .tourName(r.getTourName())
-                .comment(r.getComment())
-                .fullName(r.getFullName())
-                .avatar(r.getAvatar())
-                .createAt(r.getCreateAt())
+                .numberStar(r.getDiemSo())
+                .tourName(r.getTenTour())
+                .comment(r.getBinhLuan())
+                .fullName(r.getHoTen())
+                .avatar(r.getAnhDaiDien())
+                .createAt(r.getThoiGianTao())
                 .build();
     }
 }

@@ -37,7 +37,7 @@ public class DepartureCheduleController {
         return ResponseEntity.ok(departureCheduleService.getInfoBooking(id));
     }
 
-    @PostMapping("/add-departureshedule")
+    @PostMapping
     public ResponseEntity<String> addDepartureChedule(@RequestBody List<DepartureScheduleRequestDTO> deps, @RequestParam(value = "idTour") Integer idTour) {
         
         return ResponseEntity.ok(departureCheduleService.addDepartureChedule(deps, idTour));
