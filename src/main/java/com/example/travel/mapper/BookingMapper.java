@@ -15,9 +15,11 @@ public interface BookingMapper {
 
     BookingEntity toBookingEntity(BookingRequestDTO bookingRequestDTO);
 
-    @Mapping(source = "departureSchedule.startDate", target = "startDate")
-    @Mapping(source = "departureSchedule.startTime", target = "startTime")
-    @Mapping(source = "departureSchedule.tour.tourName", target = "tourName")
+    @Mapping(source = "departureSchedule.tour.tourName", target = "infoBookingResponseDTO.tourName")
+    @Mapping(source = "departureSchedule.tour.image", target = "infoBookingResponseDTO.image")
+    @Mapping(source = "departureSchedule.tour.adultPrice", target = "infoBookingResponseDTO.adultPrice")
+    @Mapping(source = "departureSchedule.tour.childPrice", target = "infoBookingResponseDTO.childPrice")
+    @Mapping(source = "departureSchedule.tour.destination.city", target = "infoBookingResponseDTO.city")
     BookingResponseDTO toBookingResponseDTO(BookingEntity bookingEntity);
 
     @Mapping(source = "id", target = "idBooking")

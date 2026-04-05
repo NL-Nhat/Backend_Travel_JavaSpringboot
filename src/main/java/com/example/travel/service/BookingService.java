@@ -1,9 +1,11 @@
 package com.example.travel.service;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.example.travel.dto.request.BookingRequestDTO;
 import com.example.travel.dto.response.BookingResponseDTO;
 import com.example.travel.entity.BookingEntity;
@@ -24,8 +26,15 @@ public class BookingService{
     private final UserRepository userRepository;
     private final DepartureCheduleRepository departureCheduleRepository;
 
+    public BookingResponseDTO getDetailBooking(Integer id) {
+        BookingEntity bookingEntity = bookingRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Ko tim thay booking voi id nay"));
+
+        return bookingMapper.toBookingResponseDTO(bookingEntity);
+    }
+
     @Transactional
-    public BookingResponseDTO bookTour(BookingRequestDTO request, String userName) {
+    public Map<String, Object> bookTour(BookingRequestDTO request, String userName) {
         BookingEntity bookingEntity = bookingMapper.toBookingEntity(request);
 
         UserEntity user = userRepository.findByUserName(userName)
@@ -49,7 +58,11 @@ public class BookingService{
 
         bookingEntity = bookingRepository.save(bookingEntity);
 
-        return bookingMapper.toBookingResponseDTO(bookingEntity);
+        Map<String, Object> result = new HashMap<>();
+        result.put("message", "Đặt tour thành công");
+        result.put("id", bookingEntity.getId());
+
+        return result;
 
     }
 }

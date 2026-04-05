@@ -3,8 +3,6 @@ package com.example.travel.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -18,7 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -89,10 +87,13 @@ public class BookingEntity {
     @Column(name = "email", nullable = false)
     private String email;
 
+    @Column(name = "diaChi")
+    private String address;
+
     @Column(name = "gioiTinh", columnDefinition = "TINYINT DEFAULT 1")
     private Integer gender;
 
-    @OneToMany(mappedBy = "booking") //@ManyToMany và @OnteToMany có fetchType mặc định là LAZY
-    private List<PaymentEntity> payments = new ArrayList<PaymentEntity>();
+    @OneToOne(mappedBy = "booking", fetch = FetchType.LAZY) //@ManyToMany và @OneToMany có fetchType mặc định là LAZY
+    private PaymentEntity payment;
 
 }

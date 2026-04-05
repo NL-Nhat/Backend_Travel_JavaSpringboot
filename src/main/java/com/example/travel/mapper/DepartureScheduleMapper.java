@@ -16,7 +16,8 @@ public interface DepartureScheduleMapper {
     @Mapping(source = "tour.tourName", target = "tourName")
     @Mapping(source = "tour.image", target = "image")
     @Mapping(source = "tour.destination.city", target = "city")
-    @Mapping(source = "d.id", target = "idDepartureSchedule")
+    @Mapping(source = "tour.adultPrice", target = "adultPrice")
+    @Mapping(source = "tour.childPrice", target = "childPrice")
     InfoBookingResponseDTO toInfoResponseDTO(DepartureScheduleEntity d);
 
 }
