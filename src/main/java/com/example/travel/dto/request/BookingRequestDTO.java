@@ -46,6 +46,9 @@ public class BookingRequestDTO {
     @Email(message = "Email không đúng định dạng")
     private String email;
 
+    @NotBlank(message = "Địa chỉ không được để trống")
+    private String address;
+
     @NotNull(message = "Giới tính không được null")
     @Min(value = 1, message = "Giới tính không hợp lệ")
     @Max(value = 3, message = "Giới tính không hợp lệ")

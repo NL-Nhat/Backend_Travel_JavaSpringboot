@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/tours/**").permitAll()
                 .requestMatchers("/api/schedules/**").permitAll()
                 .requestMatchers("/api/reviews/**").permitAll()
+                .requestMatchers("/api/departureChedules/**").permitAll()
                 .anyRequest().authenticated() // Các API khác đều yêu cầu có thẻ thông hành
             )
             // Cấu hình quản lý Session

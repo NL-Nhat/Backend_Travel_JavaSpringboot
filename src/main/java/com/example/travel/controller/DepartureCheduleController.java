@@ -42,6 +42,5 @@ public class DepartureCheduleController {
         
         return ResponseEntity.ok(departureCheduleService.addDepartureChedule(deps, idTour));
     }
-    
 
 }
