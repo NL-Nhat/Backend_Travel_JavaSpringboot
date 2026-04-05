@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.travel.dto.request.BookingRequestDTO;
 import com.example.travel.dto.response.BookingResponseDTO;
+import com.example.travel.dto.response.DetailBookingResponseDTO;
 import com.example.travel.entity.BookingEntity;
 import com.example.travel.entity.DepartureScheduleEntity;
 import com.example.travel.entity.UserEntity;
@@ -31,6 +32,13 @@ public class BookingService{
             .orElseThrow(() -> new RuntimeException("Ko tim thay booking voi id nay"));
 
         return bookingMapper.toBookingResponseDTO(bookingEntity);
+    }
+
+    public DetailBookingResponseDTO getDetailBookingAndPayment(Integer idBooking) {
+        BookingEntity bookingEntity = bookingRepository.findById(idBooking)
+            .orElseThrow(() -> new RuntimeException("ko tim thay booking voi id nay"));
+
+        return bookingMapper.toDetailBookingResponseDTO(bookingEntity);
     }
 
     @Transactional

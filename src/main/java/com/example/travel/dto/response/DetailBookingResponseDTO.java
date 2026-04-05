@@ -1,13 +1,13 @@
 package com.example.travel.dto.response;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class DetailBookingResponseDTO {
 
     //Info booking
@@ -15,32 +15,19 @@ public class DetailBookingResponseDTO {
     private String paymentStatus;
     private String bookingStatus;
     private LocalDateTime bookedDate;
-    private Integer adultNumber;
-    private Integer childNumber;
-    private BigDecimal totalAmount;
-    private String nameGuest;
-    private String phoneNumber;
-    private String email;
-    private LocalDate doB;
 
     //Info hướng dẫn viên
-    private String guideName;
-    private String avatar;
+    private UserResponseDTO huongDanVien;
 
-    //Info tour
+    /*id tour khi khách hàng muốn xem tour ở trang chi tiết booking 
+    thì chỉ cần gọi api getDetailTour sử dụng idTour */
     private Integer idTour;
-    private String tourName;
-    private String image;
-    private String destination;
-    private BigDecimal adultPrice;
-    private BigDecimal childPrice;
 
-    //Info thanh toán
-    private String nameMethod;
-    private LocalDateTime paymentDate;
+    private PaymentResponseDTO payment;
     
-    //Info lịch khởi hành và lịch trình
-    DepartureScheduleResponseDTO departureScheduleResponseDTO;
-    List<ScheduleResponseDTO> scheduleResponseDTOs;
+    private BookingResponseDTO bookingResponseDTO;
+
+    //Info lịch trình
+    private List<ScheduleResponseDTO> scheduleResponseDTOs;
 
 }
