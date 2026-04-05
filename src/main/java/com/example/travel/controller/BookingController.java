@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
 @Validated //thêm vào để sử dụng Bean Validation cho @PathVariable
 @RestController
 @RequiredArgsConstructor
@@ -36,6 +35,14 @@ public class BookingController {
                                             Integer id) {
         
         return ResponseEntity.ok(bookingService.getDetailBooking(id));
+    }
+    
+    @GetMapping("/booking-payment/{id}")
+    public ResponseEntity<?> getDetailBookingAndPayment(@PathVariable(value = "id") 
+                                            @NotNull(message = "id lịch khởi hành không được null")
+                                            @Min(value = 1, message = "id lịch khởi hành phải >= 1")
+                                            Integer id) {
+        return ResponseEntity.ok(bookingService.getDetailBookingAndPayment(id));
     }
     
 
