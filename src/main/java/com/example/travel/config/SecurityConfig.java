@@ -59,13 +59,15 @@ public class SecurityConfig {
         
         // Bắt buộc phải ghi rõ domain của React, KHÔNG dùng "*" khi có Cookie
         config.setAllowedOrigins(List.of("http://localhost:5173")); 
-        
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         
-        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
+        // config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
+        config.setAllowedHeaders(List.of("*"));
         
         // Cho phép nhận và gửi HTTP-Only Cookie
         config.setAllowCredentials(true); 
+
+         config.setExposedHeaders(List.of("Set-Cookie"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config); // Áp dụng cấu hình này cho mọi API

@@ -65,7 +65,7 @@ public class AuthController {
             ResponseCookie jwtCookie = ResponseCookie.from("accessToken", accessToken)
                 .httpOnly(true)       // Bật HttpOnly: Javascript không thể đọc được (Chống XSS)
                 .secure(false)        // Để false khi chạy localhost HTTP. Lên production (HTTPS) bắt buộc đổi thành true!
-                .sameSite("Strict") // Giảm nguy cơ CSRF.
+                .sameSite("Lax") 
                 .path("/")            // Cookie có tác dụng trên toàn bộ đường dẫn của web
                 .maxAge(jwtService.getExpiration() / 1000)      // Sống 15 phút, chia 1000 vì đơn vị trong file yaml và maxAge() khác nhau
                 // file yaml dùng milliseconds
@@ -76,7 +76,7 @@ public class AuthController {
             ResponseCookie refreshCookie = ResponseCookie.from("refreshToken", refreshToken)
                 .httpOnly(true)
                 .secure(false)
-                .sameSite("Strict") // Giảm nguy cơ CSRF.
+                .sameSite("Lax") 
                 .path("/api/auth/refresh") // Mẹo bảo mật: Chỉ gửi Cookie này khi gọi API Refresh
                 .maxAge(jwtService.getRefreshExpiration() / 1000) // Sống 7 ngày
                 .build();
@@ -138,7 +138,7 @@ public class AuthController {
             ResponseCookie newJwtCookie = ResponseCookie.from("accessToken", newAccessToken)
                     .httpOnly(true)
                     .secure(false)
-                    .sameSite("Strict") // Giảm nguy cơ CSRF.
+                    .sameSite("Lax") 
                     .path("/")
                     .maxAge(jwtService.getExpiration() / 1000)
                     .build();
