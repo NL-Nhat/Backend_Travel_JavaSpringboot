@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import com.example.travel.dto.request.BookingRequestDTO;
+import com.example.travel.dto.response.BookingHistoryResponseDTO;
 import com.example.travel.dto.response.BookingResponseDTO;
 import com.example.travel.dto.response.DetailBookingResponseDTO;
 import com.example.travel.dto.response.InfoTicketQRResponseDTO;
@@ -33,4 +34,9 @@ public interface BookingMapper {
     @Mapping(source = "payment.paymentMethod.nameMethod", target = "payment.nameMethod")
     @Mapping(source = "bookingEntity", target = "bookingResponseDTO")
     DetailBookingResponseDTO toDetailBookingResponseDTO(BookingEntity bookingEntity);
+
+    @Mapping(source = "departureSchedule.tour.tourName", target = "infoBookingResponseDTO.tourName")
+    @Mapping(source = "departureSchedule.tour.image", target = "infoBookingResponseDTO.image")
+    @Mapping(source = "departureSchedule.tour.destination.city", target = "infoBookingResponseDTO.city")
+    BookingHistoryResponseDTO toBookingHistoryResponseDTO(BookingEntity bookingEntity);
 }

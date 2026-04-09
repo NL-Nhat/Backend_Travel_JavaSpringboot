@@ -1,12 +1,15 @@
 package com.example.travel.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.travel.dto.request.BookingRequestDTO;
+import com.example.travel.dto.response.BookingHistoryResponseDTO;
 import com.example.travel.dto.response.BookingResponseDTO;
 import com.example.travel.dto.response.DetailBookingResponseDTO;
 import com.example.travel.entity.BookingEntity;
@@ -72,5 +75,21 @@ public class BookingService{
 
         return result;
 
+    }
+
+    public List<BookingHistoryResponseDTO> getBookingHistory(String userName) {
+        UserEntity user = userRepository.findByUserName(userName)
+            .orElseThrow(() -> new RuntimeException("Ko tim thấy user với userName này"));
+
+        List<BookingEntity> bookings = bookingRepository.findByUser(user);
+
+        List<BookingHistoryResponseDTO> result = new ArrayList<>(); 
+
+        for (BookingEntity bookingEntity : bookings) {
+            BookingHistoryResponseDTO bookingHistoryDTO = bookingMapper.toBookingHistoryResponseDTO(bookingEntity);
+            result.add(bookingHistoryDTO);
+        }
+
+        return result;
     }
 }

@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+
 @Validated //thêm vào để sử dụng Bean Validation cho @PathVariable
 @RestController
 @RequiredArgsConstructor
@@ -64,4 +65,13 @@ public class BookingController {
     //         throw new FieldRequiredException("Tên khách hàng bị null");
     //     }
     // }
+    
+    @GetMapping("/history")
+    public ResponseEntity<?> getBookingHistory(@AuthenticationPrincipal UserDetails userDetails) {
+        
+        String userName = userDetails.getUsername();
+
+        return ResponseEntity.ok(bookingService.getBookingHistory(userName));
+    }
+    
 }
