@@ -42,7 +42,7 @@ public class SearchService {
 
         List<TourEntity> tours = tourRepository.findAll(spec);
 
-        return tours.stream().map(tourMapper::mapToTourResponseDTO_Entity).collect(Collectors.toList());
+        return tours.stream().map(tourMapper::toTourResponseDTO).collect(Collectors.toList());
     }
 
 
@@ -51,7 +51,7 @@ public class SearchService {
 
         List<TourEntity> tours = tourRepository.findAll(spec);
 
-        return tours.stream().map(tourMapper::mapToTourResponseDTO_Entity).collect(Collectors.toList());
+        return tours.stream().map(tourMapper::toTourResponseDTO).collect(Collectors.toList());
     }
 
     //Viết query thủ công
