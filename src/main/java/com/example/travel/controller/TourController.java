@@ -20,7 +20,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
-import java.util.Map;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -41,19 +41,10 @@ public class TourController {
     private final TourService tourService;
     private final SearchService searchService;
 
-    @Operation(summary = "Danh sách tour đang mở, có phân trang") //Phân trang này được viết bằng thủ tục trong mysql
-    @GetMapping("/all-by-status")
-    public Map<String, Object> getAllTourByStatus(
-        @RequestParam(defaultValue = "1") @NotNull(message = "page ko đc null") @Min(value = 1, message = "page phải >= 1") Integer page, // page: số trang, vd: trang 1, trang 2,..
-        @RequestParam(defaultValue = "10") @NotNull(message = "size ko đc null") @Min(value = 1, message = "size phải >= 1") Integer size) { // size: số tour trong 1 trang
+    @GetMapping("/status")
+    public ResponseEntity<?> getToursByStatus(@RequestParam String status, Pageable pageable) {
         
-        return tourService.getAllTourDangMo(page, size);
-    }
-
-    @GetMapping("/top5tour")
-    @Operation(summary = "Top 5 tour được đặt nhiều nhất") // hiển thị trong swagger
-    public ResponseEntity<List<TourResponseDTO>> getFiveTourHot() {
-        return ResponseEntity.ok(tourService.getFiveTourHot());
+        return ResponseEntity.ok(tourService.getToursByStatus(status, pageable));
     }
     
     @GetMapping("/count-all-tour")
