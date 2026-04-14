@@ -1,8 +1,6 @@
 package com.example.travel.dto.response;
 
-import java.math.BigDecimal;
 import java.util.List;
-
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,15 +8,7 @@ import lombok.Data;
 @Builder
 public class TourDetailResponseDTO {
     
-    private Integer id;
-    private String tourName;
-    private String describe; //mô tả
-    private String city; // thành phố
-    private String image;
-    private BigDecimal averageRating;
-    private Integer numberOfReview;
-    private BigDecimal adultPrice;
-    private BigDecimal childPrice;
+    private TourResponseDTO tourResponseDTO;
 
     List<ImageTourResponseDTO> imageTours;
     List<DepartureScheduleResponseDTO> departureSchedules;
