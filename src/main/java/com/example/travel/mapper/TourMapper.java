@@ -34,10 +34,10 @@ public interface TourMapper {
     // User toUser(UserRegistrationRequest request);
 
     // Chuyển từ Entity sang Response DTO để trả về Client
-    // UserResponse toUserResponse(User user);
+    // UserResponse toUserResponse(User user);  
 
     //Tự động map qua TourDetailResponseDTO từ TourEntity
-    @Mapping(source = "destination.city", target = "city") 
+    @Mapping(source = "tourEntity", target = "tourResponseDTO") 
     TourDetailResponseDTO toTourDetailResponseDTO(TourEntity tourEntity);
 
     TourEntity toTourEntity(TourRequestDTO tourRequestDTO);

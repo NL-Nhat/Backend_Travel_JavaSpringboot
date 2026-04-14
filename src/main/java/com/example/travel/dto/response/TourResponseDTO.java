@@ -15,11 +15,11 @@ public class TourResponseDTO {
     private Integer id;
     private String tourName;
     private String image;
-    private BigDecimal adultPrice;
-    private BigDecimal childPrice;
-    private BigDecimal averageRating;
     private String describe;
     private String city;
+    private BigDecimal averageRating;
     private Integer numberOfReview;
     private String status;
+    private BigDecimal adultPrice;
+    private BigDecimal childPrice;
 }
