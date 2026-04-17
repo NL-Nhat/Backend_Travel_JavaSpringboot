@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class TourResponseDTO {
+public class TourResponse {
 
     private Integer id;
     private String tourName;

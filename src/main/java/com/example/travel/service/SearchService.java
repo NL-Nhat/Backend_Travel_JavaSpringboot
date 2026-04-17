@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import com.example.travel.dto.request.SearchRequestDTO;
-import com.example.travel.dto.response.TourResponseDTO;
+import com.example.travel.dto.request.SearchRequest;
+import com.example.travel.dto.response.TourResponse;
 import com.example.travel.entity.TourEntity;
 import com.example.travel.mapper.TourMapper;
 import com.example.travel.repository.TourRepository;
@@ -35,7 +35,7 @@ public class SearchService {
 
     //Dùng Specification sinh query tự động
 
-    public List<TourResponseDTO> filterTour(SearchRequestDTO s) {
+    public List<TourResponse> filterTour(SearchRequest s) {
 
         //Tạo đối tượng Specification từ DTO
         Specification<TourEntity> spec = TourSpecification.filterTour(s);
@@ -46,7 +46,7 @@ public class SearchService {
     }
 
 
-    public List<TourResponseDTO> searchTour(String text) {
+    public List<TourResponse> searchTour(String text) {
         Specification<TourEntity> spec = TourSpecification.searchTour(text);
 
         List<TourEntity> tours = tourRepository.findAll(spec);

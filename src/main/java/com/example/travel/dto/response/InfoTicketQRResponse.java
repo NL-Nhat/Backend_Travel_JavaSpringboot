@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class InfoTicketQRResponseDTO {
+public class InfoTicketQRResponse {
 
     private Integer idBooking;
     private String idTicket;

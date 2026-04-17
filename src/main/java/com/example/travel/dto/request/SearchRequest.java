@@ -6,7 +6,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class SearchRequestDTO {
+public class SearchRequest {
 
     private List<String> city;
     private BigDecimal priceFrom;

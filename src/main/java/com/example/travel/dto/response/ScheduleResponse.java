@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ScheduleResponseDTO {
+public class ScheduleResponse {
 
     private Integer id;
     private String describe;

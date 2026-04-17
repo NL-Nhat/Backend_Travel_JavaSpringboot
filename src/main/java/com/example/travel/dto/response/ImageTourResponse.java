@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ImageTourResponseDTO {
+public class ImageTourResponse {
 
     private String id;
     private String image;

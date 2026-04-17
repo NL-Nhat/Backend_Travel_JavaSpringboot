@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ScheduleRequestDTO {
+public class ScheduleRequest {
 
     private Integer idDepartureSchedule;
 

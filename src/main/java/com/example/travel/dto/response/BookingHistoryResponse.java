@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class BookingHistoryResponseDTO {
+public class BookingHistoryResponse {
 
     private Integer id;
     private String paymentStatus;
@@ -17,6 +17,6 @@ public class BookingHistoryResponseDTO {
     private Integer adultNumber;
     private Integer childNumber;
 
-    private InfoBookingResponseDTO infoBookingResponseDTO;
+    private InfoBookingResponse infoBookingResponseDTO;
 
 }

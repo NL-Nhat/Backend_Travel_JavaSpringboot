@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.example.travel.dto.response.PaymentMethodResponseDTO;
+import com.example.travel.dto.response.PaymentMethodResponse;
 import com.example.travel.entity.PaymentMethodEntity;
 import com.example.travel.mapper.PaymentMethodMapper;
 import com.example.travel.repository.PaymentMethodRepository;
@@ -19,7 +19,7 @@ public class PaymentMethodService {
     private final PaymentMethodRepository p;
     private final PaymentMethodMapper pm;
 
-    public List<PaymentMethodResponseDTO> getAllPaymentMethodByStatus(String status) {
+    public List<PaymentMethodResponse> getAllPaymentMethodByStatus(String status) {
         List<PaymentMethodEntity> pMethodEntities = p.findByStatus(status);
 
         return pMethodEntities.stream().map(pm::toPaymentMethodResponseDTO).collect(Collectors.toList());

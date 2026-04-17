@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.travel.dto.request.RegisterRequestDTO;
-import com.example.travel.dto.request.UserRequestDTO;
-import com.example.travel.dto.response.UserResponseDTO;
+import com.example.travel.dto.request.RegisterRequest;
+import com.example.travel.dto.request.UserRequest;
+import com.example.travel.dto.response.UserResponse;
 import com.example.travel.entity.UserEntity;
 import com.example.travel.mapper.UserMapper;
 import com.example.travel.repository.UserRepository;
@@ -28,26 +28,26 @@ public class UserService {
         return userRepository.count(); 
     }
 
-    public UserResponseDTO getProfile(String userName) {
+    public UserResponse getProfile(String userName) {
         
         UserEntity user = userRepository.findByUserName(userName)
             .orElseThrow(() -> new RuntimeException("ko tim thay user voi userName nay."));
             
-        UserResponseDTO dto = new UserResponseDTO();
+        UserResponse response = new UserResponse();
 
-        dto.setAddress(user.getAddress());
-        dto.setAvatar(user.getAvatar());
-        dto.setDoB(user.getDoB());
-        dto.setEmail(user.getEmail());
-        dto.setFullName(user.getFullName());
-        dto.setGender(user.getGender());
-        dto.setPhoneNumber(user.getPhoneNumber());
+        response.setAddress(user.getAddress());
+        response.setAvatar(user.getAvatar());
+        response.setDoB(user.getDoB());
+        response.setEmail(user.getEmail());
+        response.setFullName(user.getFullName());
+        response.setGender(user.getGender());
+        response.setPhoneNumber(user.getPhoneNumber());
 
-        return dto;
+        return response;
     }
 
     @Transactional
-    public Map<String, ?> updateProfile(MultipartFile file, UserRequestDTO dto, String userName) {
+    public Map<String, ?> updateProfile(MultipartFile file, UserRequest dto, String userName) {
         UserEntity user = userRepository.findByUserName(userName)
             .orElseThrow(() -> new RuntimeException("ko tim thay user voi userName nay."));
 
@@ -74,7 +74,7 @@ public class UserService {
     }
 
     @Transactional
-    public String register(RegisterRequestDTO request) {
+    public String register(RegisterRequest request) {
 
         if (userRepository.existsByUserName(request.getUserName())) {
             throw new RuntimeException("Username đã tồn tại");

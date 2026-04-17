@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.travel.dto.request.DepartureScheduleRequestDTO;
-import com.example.travel.dto.request.ScheduleRequestDTO;
-import com.example.travel.dto.response.InfoBookingResponseDTO;
-import com.example.travel.dto.response.ScheduleResponseDTO;
+import com.example.travel.dto.request.DepartureScheduleRequest;
+import com.example.travel.dto.request.ScheduleRequest;
+import com.example.travel.dto.response.InfoBookingResponse;
+import com.example.travel.dto.response.ScheduleResponse;
 import com.example.travel.entity.DepartureScheduleEntity;
 import com.example.travel.entity.ScheduleEntity;
 import com.example.travel.entity.TourEntity;
@@ -34,27 +34,27 @@ public class DepartureCheduleService{
     private final TourRepository tourRepository;
     private final UserRepository userRepository;
 
-    public List<ScheduleResponseDTO> getAllScheduleOfDepartureChedule(Integer id) {
+    public List<ScheduleResponse> getAllScheduleOfDepartureChedule(Integer id) {
         DepartureScheduleEntity d = departureCheduleRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Không tìm thấy lịch khởi hành với id này"));
 
         return d.getSchedules().stream().map(scheduleMapper::toScheduleResponseDTO).collect(Collectors.toList());
     }
 
-    public InfoBookingResponseDTO getInfoBooking(Integer id) {
+    public InfoBookingResponse getInfoBooking(Integer id) {
         DepartureScheduleEntity d = departureCheduleRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Không tìm thấy lịch khởi hành với id này"));
 
-        InfoBookingResponseDTO i = departureCheduleMapper.toInfoResponseDTO(d);
+        InfoBookingResponse i = departureCheduleMapper.toInfoResponseDTO(d);
 
         return i;
     }
 
     @Transactional
-    public String addDepartureChedule(List<DepartureScheduleRequestDTO> d, Integer idTour) {
+    public String addDepartureChedule(List<DepartureScheduleRequest> d, Integer idTour) {
         TourEntity tour = tourRepository.findById(idTour).orElseThrow(() -> new RuntimeException("Ko tìm thấy tour với id này"));
 
-        for(DepartureScheduleRequestDTO de : d) {
+        for(DepartureScheduleRequest de : d) {
             DepartureScheduleEntity dpe = new DepartureScheduleEntity();
             dpe.setTour(tour);
             dpe.setStartDate(de.getStartDate());
@@ -68,7 +68,7 @@ public class DepartureCheduleService{
 
             dpe = departureCheduleRepository.save(dpe);
 
-            for(ScheduleRequestDTO schl : de.getSchedules()) {
+            for(ScheduleRequest schl : de.getSchedules()) {
                 ScheduleEntity scheduleEntity = new ScheduleEntity();
                 scheduleEntity.setDate(schl.getDate());
                 scheduleEntity.setDepartureSchedule(dpe);

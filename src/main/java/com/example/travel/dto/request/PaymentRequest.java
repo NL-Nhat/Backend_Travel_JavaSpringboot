@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class PaymentRequestDTO {
+public class PaymentRequest {
 
     @NotNull(message = "id đặt tour ko đc null")
     @Min(value = 1, message = "id đặt tour phải >= 1")

@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor //Có @Builder thì phải thêm @NoArgsConstructor để sinh constructor rỗng vì có @Builder nên không tự sinh được
 @AllArgsConstructor
-public class BookingRequestDTO {
+public class BookingRequest {
 
     @NotNull(message = "id lịch khởi hành không được null")
     @Min(value = 1, message = "id lich khởi hành phải >= 1")

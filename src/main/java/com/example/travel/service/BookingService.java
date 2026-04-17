@@ -8,10 +8,10 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.example.travel.dto.request.BookingRequestDTO;
-import com.example.travel.dto.response.BookingHistoryResponseDTO;
-import com.example.travel.dto.response.BookingResponseDTO;
-import com.example.travel.dto.response.DetailBookingResponseDTO;
+import com.example.travel.dto.request.BookingRequest;
+import com.example.travel.dto.response.BookingHistoryResponse;
+import com.example.travel.dto.response.BookingResponse;
+import com.example.travel.dto.response.DetailBookingResponse;
 import com.example.travel.entity.BookingEntity;
 import com.example.travel.entity.DepartureScheduleEntity;
 import com.example.travel.entity.UserEntity;
@@ -30,14 +30,14 @@ public class BookingService{
     private final UserRepository userRepository;
     private final DepartureCheduleRepository departureCheduleRepository;
 
-    public BookingResponseDTO getDetailBooking(Integer id) {
+    public BookingResponse getDetailBooking(Integer id) {
         BookingEntity bookingEntity = bookingRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Ko tim thay booking voi id nay"));
 
         return bookingMapper.toBookingResponseDTO(bookingEntity);
     }
 
-    public DetailBookingResponseDTO getDetailBookingAndPayment(Integer idBooking) {
+    public DetailBookingResponse getDetailBookingAndPayment(Integer idBooking) {
         BookingEntity bookingEntity = bookingRepository.findById(idBooking)
             .orElseThrow(() -> new RuntimeException("ko tim thay booking voi id nay"));
 
@@ -45,7 +45,7 @@ public class BookingService{
     }
 
     @Transactional
-    public Map<String, Object> bookTour(BookingRequestDTO request, String userName) {
+    public Map<String, Object> bookTour(BookingRequest request, String userName) {
         BookingEntity bookingEntity = bookingMapper.toBookingEntity(request);
 
         UserEntity user = userRepository.findByUserName(userName)
@@ -77,16 +77,16 @@ public class BookingService{
 
     }
 
-    public List<BookingHistoryResponseDTO> getBookingHistory(String userName) {
+    public List<BookingHistoryResponse> getBookingHistory(String userName) {
         UserEntity user = userRepository.findByUserName(userName)
             .orElseThrow(() -> new RuntimeException("Ko tim thấy user với userName này"));
 
         List<BookingEntity> bookings = bookingRepository.findByUser(user);
 
-        List<BookingHistoryResponseDTO> result = new ArrayList<>(); 
+        List<BookingHistoryResponse> result = new ArrayList<>(); 
 
         for (BookingEntity bookingEntity : bookings) {
-            BookingHistoryResponseDTO bookingHistoryDTO = bookingMapper.toBookingHistoryResponseDTO(bookingEntity);
+            BookingHistoryResponse bookingHistoryDTO = bookingMapper.toBookingHistoryResponseDTO(bookingEntity);
             result.add(bookingHistoryDTO);
         }
 

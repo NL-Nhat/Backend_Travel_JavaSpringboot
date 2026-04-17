@@ -1,15 +1,19 @@
 package com.example.travel.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.example.travel.dto.request.TourRequestDTO;
+import com.example.travel.dto.request.TourRequest;
 import com.example.travel.dto.response.PageResponse;
-import com.example.travel.dto.response.ReviewResponseDTO;
-import com.example.travel.dto.response.TourDetailResponseDTO;
-import com.example.travel.dto.response.TourResponseDTO;
+import com.example.travel.dto.response.ReviewResponse;
+import com.example.travel.dto.response.TourDetailResponse;
+import com.example.travel.dto.response.TourResponse;
 import com.example.travel.entity.DestinationEntity;
 import com.example.travel.entity.ReviewEntity;
 import com.example.travel.entity.TourEntity;
@@ -29,12 +33,13 @@ public class TourService {
     private final TourRepository tourRepository;
     private final DestinationRepository destinationRepository;
     private final ReviewRepository reviewRepository;
+    private final CloudinaryService cloudinaryService;
 
     public long countAllTour() {
         return tourRepository.count();
     }
 
-    public PageResponse<TourResponseDTO> getToursByStatus(String status, Pageable pageable) {
+    public PageResponse<TourResponse> getToursByStatus(String status, Pageable pageable) {
 
         Page<TourEntity> page;
 
@@ -44,7 +49,7 @@ public class TourService {
             page = tourRepository.findByStatus(status, pageable); // lọc theo status
         }
 
-        PageResponse<TourResponseDTO> res = new PageResponse<>();
+        PageResponse<TourResponse> res = new PageResponse<>();
         res.setContent(
             page.getContent().stream()
                 .map(tourMapper::toTourResponseDTO)
@@ -58,15 +63,15 @@ public class TourService {
         return res;
     }
 
-    public TourDetailResponseDTO getDetailTour(Integer id) {
+    public TourDetailResponse getDetailTour(Integer id) {
         TourEntity tourEntity = tourRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy tour có id này"));
 
-        TourDetailResponseDTO tourDetailResponseDTO =  tourMapper.toTourDetailResponseDTO(tourEntity);
+        TourDetailResponse tourDetailResponseDTO =  tourMapper.toTourDetailResponseDTO(tourEntity);
         
         return tourDetailResponseDTO;
     }
 
-    public List<ReviewResponseDTO> getAllReview(Integer idTour) {
+    public List<ReviewResponse> getAllReview(Integer idTour) {
 
         List<ReviewEntity> reviews = reviewRepository.findByTourId(idTour);
 
@@ -75,7 +80,7 @@ public class TourService {
         }
 
         return reviews.stream().map(review -> {
-            ReviewResponseDTO dto = new ReviewResponseDTO();
+            ReviewResponse dto = new ReviewResponse();
             dto.setNumberStar(review.getNumberStar());
             dto.setComment(review.getComment());
             dto.setFullName(review.getUser().getFullName());
@@ -87,7 +92,7 @@ public class TourService {
 
 
     @Transactional
-    public Integer addTour(TourRequestDTO tourRequestDTO) {
+    public Map<String, Object> addTour(MultipartFile file, TourRequest tourRequestDTO) {
 
         if(tourRepository.existsByTourName(tourRequestDTO.getTourName())) {
             throw new RuntimeException("Tên tour '" + tourRequestDTO.getTourName() + "' đã tồn tại!");
@@ -96,16 +101,31 @@ public class TourService {
         DestinationEntity d = destinationRepository.findById(tourRequestDTO.getIdDestination())
             .orElseThrow(() -> new RuntimeException("Ko tìm thấy điểm đến với id này"));
 
-        TourEntity t = tourMapper.toTourEntity(tourRequestDTO);
-        t.setDestination(d);
+        TourEntity tour = tourMapper.toTourEntity(tourRequestDTO);
+        tour.setDestination(d);
 
-        TourEntity tourEntity = tourRepository.save(t);
+        if (file != null && !file.isEmpty()) {
+            try {
+                String fileName = "tour/" + System.currentTimeMillis();
+                String imageURL = cloudinaryService.uploadImage(file, fileName);
 
-        return tourEntity.getId();
+                tour.setImage(imageURL);
+            } catch (Exception e) {
+                throw new RuntimeException("Upload ảnh thất bại: " + e.getMessage(), e);
+            }
+        }
+
+        TourEntity tourEntity = tourRepository.save(tour);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("idTour", tourEntity.getId());
+        response.put("message", "Tạo tour thành công");
+
+        return response;
     }
 
     @Transactional
-    public String updateTour(TourRequestDTO tourRequestDTO, Integer idTour) {
+    public String updateTour(TourRequest tourRequestDTO, Integer idTour) {
 
         TourEntity tourEntity = tourRepository.findById(idTour).orElseThrow(() -> new RuntimeException("ko tìm thấy tour với id này"));
         tourMapper.updateTourFromDto(tourRequestDTO, tourEntity);

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.travel.dto.response.ScheduleResponseDTO;
+import com.example.travel.dto.response.ScheduleResponse;
 import com.example.travel.service.DepartureCheduleService;
 
 import jakarta.validation.constraints.Min;
@@ -25,7 +25,7 @@ public class ScheduleController {
     private final DepartureCheduleService d;
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<ScheduleResponseDTO>> getAllScheduleOfDepartureChedule(@PathVariable(value = "id") 
+    public ResponseEntity<List<ScheduleResponse>> getAllScheduleOfDepartureChedule(@PathVariable(value = "id") 
                                                                                       @NotNull(message = "id lkh ko được null")
                                                                                       @Min(value = 1, message = "id lkh ko hợp lệ")
                                                                                       Integer id) {

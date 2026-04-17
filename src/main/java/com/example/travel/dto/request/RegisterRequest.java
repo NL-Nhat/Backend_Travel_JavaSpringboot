@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterRequestDTO {
+public class RegisterRequest {
     @NotBlank(message = "username ko đc trống")
     private String userName;
 

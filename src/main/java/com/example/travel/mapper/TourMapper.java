@@ -5,9 +5,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-import com.example.travel.dto.request.TourRequestDTO;
-import com.example.travel.dto.response.TourDetailResponseDTO;
-import com.example.travel.dto.response.TourResponseDTO;
+import com.example.travel.dto.request.TourRequest;
+import com.example.travel.dto.response.TourDetailResponse;
+import com.example.travel.dto.response.TourResponse;
 import com.example.travel.entity.TourEntity;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE) 
@@ -28,7 +28,7 @@ public interface TourMapper {
     // }
 
     @Mapping(source = "destination.city", target = "city")
-    TourResponseDTO toTourResponseDTO(TourEntity tourEntity);
+    TourResponse toTourResponseDTO(TourEntity tourEntity);
 
     // Chuyển từ Request DTO sang Entity để lưu DB
     // User toUser(UserRegistrationRequest request);
@@ -38,10 +38,10 @@ public interface TourMapper {
 
     //Tự động map qua TourDetailResponseDTO từ TourEntity
     @Mapping(source = "tourEntity", target = "tourResponseDTO") 
-    TourDetailResponseDTO toTourDetailResponseDTO(TourEntity tourEntity);
+    TourDetailResponse toTourDetailResponseDTO(TourEntity tourEntity);
 
-    TourEntity toTourEntity(TourRequestDTO tourRequestDTO);
+    TourEntity toTourEntity(TourRequest tourRequestDTO);
 
     // Hàm update
-    void updateTourFromDto(TourRequestDTO dto, @MappingTarget TourEntity entity);
+    void updateTourFromDto(TourRequest dto, @MappingTarget TourEntity entity);
 }

@@ -6,9 +6,9 @@ import lombok.Data;
 
 @Data
 @Builder
-public class BookingResponseDTO {
+public class BookingResponse {
 
-    InfoBookingResponseDTO infoBookingResponseDTO;
+    InfoBookingResponse infoBookingResponseDTO;
 
     private String nameGuest;
     private String phoneNumber;
