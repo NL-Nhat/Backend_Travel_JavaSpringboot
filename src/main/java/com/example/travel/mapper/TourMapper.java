@@ -40,7 +40,7 @@ public interface TourMapper {
     @Mapping(source = "tourEntity", target = "tourResponseDTO") 
     TourDetailResponse toTourDetailResponseDTO(TourEntity tourEntity);
 
-    TourEntity toTourEntity(TourRequest tourRequestDTO);
+    TourEntity toTourEntity(TourRequest tourRequest);
 
     // Hàm update
     void updateTourFromDto(TourRequest dto, @MappingTarget TourEntity entity);
