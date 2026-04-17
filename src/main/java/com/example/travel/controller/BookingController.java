@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.travel.dto.request.BookingRequestDTO;
+import com.example.travel.dto.request.BookingRequest;
 import com.example.travel.service.BookingService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -48,7 +48,7 @@ public class BookingController {
     
 
     @PostMapping
-    public ResponseEntity<?> bookTour(@Valid @RequestBody BookingRequestDTO request,
+    public ResponseEntity<?> bookTour(@Valid @RequestBody BookingRequest request,
                                                         @AuthenticationPrincipal UserDetails userDetails) {
 
         String userName = userDetails.getUsername();

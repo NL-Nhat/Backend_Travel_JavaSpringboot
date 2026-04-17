@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DepartureScheduleRequestDTO {
+public class DepartureScheduleRequest {
 
     private LocalDate startDate;
     private LocalTime startTime;
@@ -21,5 +21,5 @@ public class DepartureScheduleRequestDTO {
     private LocalTime endTime;
     private Integer huongDanVien;
     private Integer maxGuest;
-    private List<ScheduleRequestDTO> schedules;
+    private List<ScheduleRequest> schedules;
 }

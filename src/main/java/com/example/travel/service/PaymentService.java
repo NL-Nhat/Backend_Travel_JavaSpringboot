@@ -6,8 +6,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.example.travel.dto.request.PaymentRequestDTO;
-import com.example.travel.dto.response.InfoTicketQRResponseDTO;
+import com.example.travel.dto.request.PaymentRequest;
+import com.example.travel.dto.response.InfoTicketQRResponse;
 import com.example.travel.entity.BookingEntity;
 import com.example.travel.entity.PaymentEntity;
 import com.example.travel.entity.PaymentMethodEntity;
@@ -50,7 +50,7 @@ public class PaymentService {
     }
 
     @Transactional
-    public Map<String, Object> paymentBookTour(PaymentRequestDTO request) {
+    public Map<String, Object> paymentBookTour(PaymentRequest request) {
         BookingEntity bookingEntity = bookingRepository.findById(request.getIdBooking())
                 .orElseThrow(() -> new RuntimeException("Ko tìm thấy tour đã đặt với id này"));
 
@@ -72,7 +72,7 @@ public class PaymentService {
         bookingEntity.setIdTicket(generateUniqueTicketCode());
         bookingRepository.save(bookingEntity);
 
-        InfoTicketQRResponseDTO infoTicketQR = bookingMapper.toInfoTicketQR(bookingEntity);
+        InfoTicketQRResponse infoTicketQR = bookingMapper.toInfoTicketQR(bookingEntity);
 
         Map<String, Object> result = new HashMap<>();
         result.put("data", infoTicketQR);

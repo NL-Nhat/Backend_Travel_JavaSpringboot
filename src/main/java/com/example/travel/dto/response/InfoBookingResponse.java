@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class InfoBookingResponseDTO {
+public class InfoBookingResponse {
 
     private String tourName;
     private String city;

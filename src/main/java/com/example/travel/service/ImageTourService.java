@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.travel.dto.request.ImageTourRequestDTO;
+import com.example.travel.dto.request.ImageTourRequest;
 import com.example.travel.entity.ImageTourEntity;
 import com.example.travel.entity.TourEntity;
 import com.example.travel.mapper.ImageTourMapper;
@@ -22,7 +22,7 @@ public class ImageTourService {
     private final TourRepository tourRepository;
     private final ImageTourMapper imageTourMapper;
 
-    public String addImageTour(List<ImageTourRequestDTO> i, Integer idTour) {
+    public String addImageTour(List<ImageTourRequest> i, Integer idTour) {
 
         TourEntity t = tourRepository.findById(idTour)
             .orElseThrow(() -> new RuntimeException("Ko tìm thấy tour với id này"));
@@ -30,7 +30,7 @@ public class ImageTourService {
             //Tạo danh sách tạm để chứa các Entity
         List<ImageTourEntity> listImage = new ArrayList<>();
 
-        for (ImageTourRequestDTO dto : i) {
+        for (ImageTourRequest dto : i) {
             ImageTourEntity imageTour = imageTourMapper.toImageTourEntity(dto);
             imageTour.setTour(t);
             listImage.add(imageTour);

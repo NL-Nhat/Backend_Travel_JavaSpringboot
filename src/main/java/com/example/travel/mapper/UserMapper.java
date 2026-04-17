@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-import com.example.travel.dto.request.UserRequestDTO;
+import com.example.travel.dto.request.UserRequest;
 import com.example.travel.entity.UserEntity;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE) 
@@ -12,5 +12,5 @@ import com.example.travel.entity.UserEntity;
 public interface UserMapper {
 
     // Tạo hàm cập nhật entity CÓ SẴN
-    void updateUserFromDto(UserRequestDTO dto, @MappingTarget UserEntity entity);
+    void updateUserFromDto(UserRequest dto, @MappingTarget UserEntity entity);
 }

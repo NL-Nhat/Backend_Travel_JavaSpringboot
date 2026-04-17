@@ -2,8 +2,8 @@ package com.example.travel.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.travel.dto.request.LoginRequestDTO;
-import com.example.travel.dto.request.RegisterRequestDTO;
+import com.example.travel.dto.request.LoginRequest;
+import com.example.travel.dto.request.RegisterRequest;
 import com.example.travel.service.AuthService;
 import com.example.travel.service.JwtService;
 import com.example.travel.service.UserService;
@@ -41,7 +41,7 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDTO request) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
 
         try {
             //  Kiểm tra username và pass
@@ -155,7 +155,7 @@ public class AuthController {
     
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequestDTO request) {
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
         
         return ResponseEntity.ok(userService.register(request));
     }

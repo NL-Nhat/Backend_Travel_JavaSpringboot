@@ -1,22 +1,22 @@
 package com.example.travel.dto.response;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@Builder
 @AllArgsConstructor
-public class UserResponseDTO {
+public class ReviewResponse {
 
-    private String email;
+    private Integer numberStar;
+    private String tourName;
+    private String comment;
     private String fullName;
-    private String address;
     private String avatar;
-    private Integer gender;
-    private String phoneNumber;
-    private LocalDate doB;
-
+    private LocalDateTime createAt;
 }

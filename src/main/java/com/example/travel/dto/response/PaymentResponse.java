@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class PaymentResponseDTO {
+public class PaymentResponse {
 
     private String nameMethod;
     private LocalDateTime paymentDate;

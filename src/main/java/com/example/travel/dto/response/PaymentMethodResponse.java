@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class PaymentMethodResponseDTO {
+public class PaymentMethodResponse {
 
     private Integer id;
     private String nameMethod;

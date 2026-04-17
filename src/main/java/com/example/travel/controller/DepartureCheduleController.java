@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.travel.dto.request.DepartureScheduleRequestDTO;
-import com.example.travel.dto.response.InfoBookingResponseDTO;
+import com.example.travel.dto.request.DepartureScheduleRequest;
+import com.example.travel.dto.response.InfoBookingResponse;
 import com.example.travel.service.DepartureCheduleService;
 
 import jakarta.validation.constraints.Min;
@@ -30,7 +30,7 @@ public class DepartureCheduleController {
     private final DepartureCheduleService departureCheduleService;
 
     @GetMapping("/{id}/info-booking")
-    public ResponseEntity<InfoBookingResponseDTO> getInfoBooking(@PathVariable(value = "id")
+    public ResponseEntity<InfoBookingResponse> getInfoBooking(@PathVariable(value = "id")
                                                                  @NotNull(message = "id lịch khởi hành không được null")
                                                                  @Min(value = 1, message = "id lịch khởi hành phải >= 1")
                                                                  Integer id) {
@@ -38,7 +38,7 @@ public class DepartureCheduleController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addDepartureChedule(@RequestBody List<DepartureScheduleRequestDTO> deps, @RequestParam(value = "idTour") Integer idTour) {
+    public ResponseEntity<String> addDepartureChedule(@RequestBody List<DepartureScheduleRequest> deps, @RequestParam(value = "idTour") Integer idTour) {
         
         return ResponseEntity.ok(departureCheduleService.addDepartureChedule(deps, idTour));
     }

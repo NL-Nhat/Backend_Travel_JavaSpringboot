@@ -1,4 +1,4 @@
-package com.example.travel.dto.request;
+package com.example.travel.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequestDTO {
+public class ErrorResponse {
 
-    private String userName;
-    private String passWord;
+    private String message;
+    private String detail;
+    
 }

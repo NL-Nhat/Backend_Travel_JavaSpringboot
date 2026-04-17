@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
-import com.example.travel.dto.request.SearchRequestDTO;
+import com.example.travel.dto.request.SearchRequest;
 import com.example.travel.entity.DepartureScheduleEntity;
 import com.example.travel.entity.DestinationEntity;
 import com.example.travel.entity.TourEntity;
@@ -17,7 +17,7 @@ import jakarta.persistence.criteria.Predicate;
 public class TourSpecification {
 
     //Lọc
-    public static Specification<TourEntity> filterTour(SearchRequestDTO s) {
+    public static Specification<TourEntity> filterTour(SearchRequest s) {
 
         /*
             + Root<T> root: Đại diện cho Entity (giống như FROM TourEntity). 

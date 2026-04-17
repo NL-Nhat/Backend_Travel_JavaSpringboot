@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.travel.dto.request.UserRequestDTO;
+import com.example.travel.dto.request.UserRequest;
 import com.example.travel.service.UserService;
 import lombok.RequiredArgsConstructor;
 
@@ -47,7 +47,7 @@ public class UserController {
     @PutMapping(value = "/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateProfile(@RequestPart (required = false) MultipartFile file,
                                             @AuthenticationPrincipal UserDetails userDetails,
-                                            @RequestPart("dto") UserRequestDTO dto) {
+                                            @RequestPart("dto") UserRequest dto) {
         
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Vui lòng đăng nhập!");

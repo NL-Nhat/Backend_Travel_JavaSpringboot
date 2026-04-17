@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.travel.dto.request.PaymentRequestDTO;
+import com.example.travel.dto.request.PaymentRequest;
 import com.example.travel.service.PaymentService;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class PaymentController {
     private final PaymentService ps;
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> paymentBookTour(@RequestBody PaymentRequestDTO p) {
+    public ResponseEntity<Map<String, Object>> paymentBookTour(@RequestBody PaymentRequest p) {
         return ResponseEntity.ok(ps.paymentBookTour(p));
     }
 }

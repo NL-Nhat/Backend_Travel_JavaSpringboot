@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ImageTourRequestDTO {
+public class ImageTourRequest {
 
     @NotBlank(message = "image ko đc để trống")
     private String image;

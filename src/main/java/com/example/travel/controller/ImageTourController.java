@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.travel.dto.request.ImageTourRequestDTO;
+import com.example.travel.dto.request.ImageTourRequest;
 import com.example.travel.service.ImageTourService;
 
 import jakarta.validation.Valid;
@@ -27,7 +27,7 @@ public class ImageTourController {
     private final ImageTourService imageTourService;
 
     @PostMapping("/add-image-tour")
-    public ResponseEntity<String> addImageTour(@Valid @RequestBody List<ImageTourRequestDTO> i,//Thêm @Valid để hiện lỗi đã đặt trong RequestDto, chỉ dùng cho @RequestBody
+    public ResponseEntity<String> addImageTour(@Valid @RequestBody List<ImageTourRequest> i,//Thêm @Valid để hiện lỗi đã đặt trong RequestDto, chỉ dùng cho @RequestBody
         //Vì @RequestParam luôn có thuộc tính required = true nên phải đặt lại thành false để @Notnull bắt lỗi được
         //Nếu ko thì cơ chế của Spring sẽ tự động chặn lại và ném ra lỗi: "Required request parameter... is not present". 
         //Nếu ko kiểm tra null(chỉ dùng @Min) thì ko cần thêm required = false vì cơ chế của Spring chỉ chặn null

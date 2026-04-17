@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class DetailBookingResponseDTO {
+public class DetailBookingResponse {
 
     //Info booking
     private String idTicket;
@@ -17,17 +17,17 @@ public class DetailBookingResponseDTO {
     private LocalDateTime bookedDate;
 
     //Info hướng dẫn viên
-    private UserResponseDTO huongDanVien;
+    private UserResponse huongDanVien;
 
     /*id tour khi khách hàng muốn xem tour ở trang chi tiết booking 
     thì chỉ cần gọi api getDetailTour sử dụng idTour */
     private Integer idTour;
 
-    private PaymentResponseDTO payment;
+    private PaymentResponse payment;
     
-    private BookingResponseDTO bookingResponseDTO;
+    private BookingResponse bookingResponseDTO;
 
     //Info lịch trình
-    private List<ScheduleResponseDTO> scheduleResponseDTOs;
+    private List<ScheduleResponse> scheduleResponseDTOs;
 
 }

@@ -6,7 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.example.travel.dto.response.ErrorResponseDTO;
+import com.example.travel.dto.response.ErrorResponse;
 
 /* Thay vì bạn phải viết hàng chục khối try-catch trong từng Controller,
 chỉ cần viết logic xử lý lỗi tại một nơi duy nhất.
@@ -21,8 +21,8 @@ public class GlobalExceptionHandler {
 
     // Xử lý lỗi thiếu trường dữ liệu (FieldRequiredException bạn đã tạo)
     @ExceptionHandler(FieldRequiredException.class)
-    public ResponseEntity<ErrorResponseDTO> handleFieldRequiredException(FieldRequiredException e) {
-        ErrorResponseDTO err = new ErrorResponseDTO();
+    public ResponseEntity<ErrorResponse> handleFieldRequiredException(FieldRequiredException e) {
+        ErrorResponse err = new ErrorResponse();
         err.setMessage(e.getMessage());
         err.setDetail("Hãy kiểm tra các trường dữ liệu bắt buộc");
 
@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
 
     // Bắt lỗi Validation (Dữ liệu đầu vào không hợp lệ)
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    ResponseEntity<ErrorResponseDTO> handlingValidation(MethodArgumentNotValidException exception) {
+    ResponseEntity<ErrorResponse> handlingValidation(MethodArgumentNotValidException exception) {
         String message = exception.getBindingResult()
             .getFieldErrors()
             .stream()
@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
             .map(err -> err.getDefaultMessage())
             .orElse("Dữ liệu không hợp lệ");
         
-        ErrorResponseDTO apiResponse = new ErrorResponseDTO();
+        ErrorResponse apiResponse = new ErrorResponse();
         apiResponse.setMessage(message);
         apiResponse.setDetail("Dữ liệu đầu vào không hợp lệ");
 

@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TourRequestDTO {
+public class TourRequest {
 
     @NotBlank(message = "tên tour ko đc để trống")
     private String tourName;
@@ -28,9 +28,6 @@ public class TourRequestDTO {
     @NotNull(message = "giá trẻ em ko đc null")
     @Min(value = 0, message = "giá trẻ em phải >= 0")
     private BigDecimal childPrice;
-
-    @NotBlank(message = "ảnh ko đc để trống")
-    private String image;
 
     @NotBlank(message = "trạng thái không được để trống")
     @Pattern(regexp = "^(Đang mở|Tạm dừng)$", 
