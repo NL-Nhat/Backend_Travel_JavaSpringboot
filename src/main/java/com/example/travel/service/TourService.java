@@ -105,21 +105,23 @@ public class TourService {
         TourEntity tour = tourMapper.toTourEntity(tourRequestDTO);
         tour.setDestination(d);
 
+        TourEntity savedTour = tourRepository.save(tour);
+
         if (file != null && !file.isEmpty()) {
             try {
-                String fileName = "tour/" + System.currentTimeMillis();
+                String fileName = "tour/tour_" + savedTour.getId();
                 String imageURL = cloudinaryService.uploadImage(file, fileName);
 
                 tour.setImage(imageURL);
+
+                tourRepository.save(savedTour);
             } catch (Exception e) {
                 throw new RuntimeException("Upload ảnh thất bại: " + e.getMessage(), e);
             }
         }
 
-        TourEntity tourEntity = tourRepository.save(tour);
-
         Map<String, Object> response = new HashMap<>();
-        response.put("idTour", tourEntity.getId());
+        response.put("idTour", savedTour.getId());
         response.put("message", "Tạo tour thành công");
 
         return response;
@@ -133,14 +135,16 @@ public class TourService {
 
         tourMapper.updateTourFromDto(tourRequestDTO, tour);
 
-        DestinationEntity d = destinationRepository.findById(tourRequestDTO.getIdDestination())
-            .orElseThrow(() -> new RuntimeException("Ko tìm thấy điểm đến với id này"));
+        if(tourRequestDTO.getIdDestination() != null) {
+            DestinationEntity d = destinationRepository.findById(tourRequestDTO.getIdDestination())
+                .orElseThrow(() -> new RuntimeException("Ko tìm thấy điểm đến với id này"));
 
-        tour.setDestination(d);
+            tour.setDestination(d);
+        }
 
         if (file != null && !file.isEmpty()) {
             try {
-                String fileName = "tour/" + System.currentTimeMillis();
+                String fileName = "tour/tour_" + idTour;
                 String imageURL = cloudinaryService.uploadImage(file, fileName);
 
                 tour.setImage(imageURL);
@@ -168,6 +172,8 @@ public class TourService {
         if (hasBooking) {
             throw new IllegalStateException("Tour đã có người đặt, không thể xóa");  //IllegalStateException → sai trạng thái
         }
+
+        cloudinaryService.deleteTourImage(id);
 
         departureScheduleRepository.deleteAll(tour.getDepartureSchedules());
         tourRepository.delete(tour);

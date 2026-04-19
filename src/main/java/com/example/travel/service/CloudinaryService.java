@@ -31,15 +31,16 @@ public class CloudinaryService {
         return uploadResult.get("secure_url").toString();
     }
 
-    // public void deleteImage(String fileNameInDb) throws IOException {
-    //     if (fileNameInDb == null || fileNameInDb.isEmpty()) return;
-
-    //     // Lấy public_id bằng cách bỏ đuôi .jpg
-    //     String publicId = fileNameInDb.contains(".") 
-    //                     ? fileNameInDb.substring(0, fileNameInDb.lastIndexOf(".")) 
-    //                     : fileNameInDb;
-
-    //     // Gọi API xóa của Cloudinary
-    //     cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
-    // }
+    public void deleteTourImage(Integer idTour) {
+        try {
+            // Tên image đã tạo
+            String publicId = "tour/tour_" + idTour;
+            
+            // Gọi API xóa của Cloudinary
+            cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+            
+        } catch (Exception e) {
+            System.err.println("Lỗi xóa ảnh trên Cloudinary: " + e.getMessage());
+        }
+    }
 }
