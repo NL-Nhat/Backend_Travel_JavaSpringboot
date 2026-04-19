@@ -16,5 +16,4 @@ public class DepartureScheduleResponse {
     private LocalDate endDate;
     private Integer numberGuestBooked;
     private Integer maxGuest;
-
 }

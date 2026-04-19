@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -34,12 +35,15 @@ public class SecurityConfig {
 
             // Cấu hình phân quyền các endpoint (URL)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll() // Cho phép tất cả vào các API đăng nhập/đăng ký
+                .requestMatchers("/api/auth/register").permitAll()
+                .requestMatchers("/api/auth/login").permitAll()
                 .requestMatchers("/api/users/**").permitAll()
-                .requestMatchers("/api/tours/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/tours/**").permitAll()
+                .requestMatchers("/api/tours/**").hasRole("ADMIN")
                 .requestMatchers("/api/schedules/**").permitAll()
                 .requestMatchers("/api/reviews/**").permitAll()
                 .requestMatchers("/api/departureChedules/**").permitAll()
+                .requestMatchers("/api/destinations/**").permitAll()
                 .anyRequest().authenticated() // Các API khác đều yêu cầu có thẻ thông hành
             )
             // Cấu hình quản lý Session

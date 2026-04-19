@@ -17,7 +17,7 @@ import com.example.travel.entity.DepartureScheduleEntity;
 import com.example.travel.entity.UserEntity;
 import com.example.travel.mapper.BookingMapper;
 import com.example.travel.repository.BookingRepository;
-import com.example.travel.repository.DepartureCheduleRepository;
+import com.example.travel.repository.DepartureScheduleRepository;
 import com.example.travel.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +28,7 @@ public class BookingService{
     private final BookingMapper bookingMapper;
     private final BookingRepository bookingRepository;
     private final UserRepository userRepository;
-    private final DepartureCheduleRepository departureCheduleRepository;
+    private final DepartureScheduleRepository departureScheduleRepository;
 
     public BookingResponse getDetailBooking(Integer id) {
         BookingEntity bookingEntity = bookingRepository.findById(id)
@@ -51,7 +51,7 @@ public class BookingService{
         UserEntity user = userRepository.findByUserName(userName)
             .orElseThrow(() -> new RuntimeException("Không tìm thấy user với userName này"));
 
-        DepartureScheduleEntity d = departureCheduleRepository.findById(request.getIdDepartureSchedule())
+        DepartureScheduleEntity d = departureScheduleRepository.findById(request.getIdDepartureSchedule())
             .orElseThrow(() -> new RuntimeException("Không tìm thấy lịch khởi hành với id này"));
 
         bookingEntity.setUser(user);

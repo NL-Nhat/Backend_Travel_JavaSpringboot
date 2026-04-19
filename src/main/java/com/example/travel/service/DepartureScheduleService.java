@@ -16,7 +16,7 @@ import com.example.travel.entity.TourEntity;
 import com.example.travel.entity.UserEntity;
 import com.example.travel.mapper.DepartureScheduleMapper;
 import com.example.travel.mapper.ScheduleMapper;
-import com.example.travel.repository.DepartureCheduleRepository;
+import com.example.travel.repository.DepartureScheduleRepository;
 import com.example.travel.repository.ScheduleRepository;
 import com.example.travel.repository.TourRepository;
 import com.example.travel.repository.UserRepository;
@@ -25,9 +25,9 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class DepartureCheduleService{
+public class DepartureScheduleService{
 
-    private final DepartureCheduleRepository departureCheduleRepository;
+    private final DepartureScheduleRepository departureCheduleRepository;
     private final ScheduleRepository scheduleRepository;
     private final ScheduleMapper scheduleMapper;
     private final DepartureScheduleMapper departureCheduleMapper;

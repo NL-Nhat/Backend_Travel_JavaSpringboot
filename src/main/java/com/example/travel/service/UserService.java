@@ -33,15 +33,7 @@ public class UserService {
         UserEntity user = userRepository.findByUserName(userName)
             .orElseThrow(() -> new RuntimeException("ko tim thay user voi userName nay."));
             
-        UserResponse response = new UserResponse();
-
-        response.setAddress(user.getAddress());
-        response.setAvatar(user.getAvatar());
-        response.setDoB(user.getDoB());
-        response.setEmail(user.getEmail());
-        response.setFullName(user.getFullName());
-        response.setGender(user.getGender());
-        response.setPhoneNumber(user.getPhoneNumber());
+        UserResponse response = userMapper.toUserResponse(user);
 
         return response;
     }
