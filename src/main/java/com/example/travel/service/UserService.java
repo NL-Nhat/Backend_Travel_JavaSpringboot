@@ -47,7 +47,7 @@ public class UserService {
 
         if (file != null && !file.isEmpty()) {
             try {
-                String fileName = "avatar/" + System.currentTimeMillis();
+                String fileName = "avatar/avatar_" + user.getId();
                 String imageURL = cloudinaryService.uploadImage(file, fileName);
 
                 user.setAvatar(imageURL);
