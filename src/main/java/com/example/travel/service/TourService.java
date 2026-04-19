@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.travel.dto.request.TourRequest;
@@ -18,11 +19,10 @@ import com.example.travel.entity.DestinationEntity;
 import com.example.travel.entity.ReviewEntity;
 import com.example.travel.entity.TourEntity;
 import com.example.travel.mapper.TourMapper;
+import com.example.travel.repository.DepartureScheduleRepository;
 import com.example.travel.repository.DestinationRepository;
 import com.example.travel.repository.ReviewRepository;
 import com.example.travel.repository.TourRepository;
-
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -32,6 +32,7 @@ public class TourService {
     private final TourMapper tourMapper;
     private final TourRepository tourRepository;
     private final DestinationRepository destinationRepository;
+    private final DepartureScheduleRepository departureScheduleRepository;
     private final ReviewRepository reviewRepository;
     private final CloudinaryService cloudinaryService;
 
@@ -99,7 +100,7 @@ public class TourService {
         }
 
         DestinationEntity d = destinationRepository.findById(tourRequestDTO.getIdDestination())
-            .orElseThrow(() -> new RuntimeException("Ko tìm thấy điểm đến với id này"));
+            .orElseThrow(() -> new IllegalArgumentException("Ko tìm thấy điểm đến với id này"));
 
         TourEntity tour = tourMapper.toTourEntity(tourRequestDTO);
         tour.setDestination(d);
@@ -125,17 +126,53 @@ public class TourService {
     }
 
     @Transactional
-    public String updateTour(TourRequest tourRequestDTO, Integer idTour) {
+    public Map<String, Object> updateTour(MultipartFile file, TourRequest tourRequestDTO, Integer idTour) {
 
-        TourEntity tourEntity = tourRepository.findById(idTour).orElseThrow(() -> new RuntimeException("ko tìm thấy tour với id này"));
-        tourMapper.updateTourFromDto(tourRequestDTO, tourEntity);
+        TourEntity tour = tourRepository.findById(idTour)
+            .orElseThrow(() -> new IllegalArgumentException("ko tìm thấy tour với id này"));
+
+        tourMapper.updateTourFromDto(tourRequestDTO, tour);
 
         DestinationEntity d = destinationRepository.findById(tourRequestDTO.getIdDestination())
             .orElseThrow(() -> new RuntimeException("Ko tìm thấy điểm đến với id này"));
 
-        tourEntity.setDestination(d);
+        tour.setDestination(d);
 
-        return "Sửa tour thành công";
+        if (file != null && !file.isEmpty()) {
+            try {
+                String fileName = "tour/" + System.currentTimeMillis();
+                String imageURL = cloudinaryService.uploadImage(file, fileName);
+
+                tour.setImage(imageURL);
+            } catch (Exception e) {
+                throw new RuntimeException("Upload ảnh thất bại: " + e.getMessage(), e);
+            }
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("idTour", tour.getId());
+        response.put("message", "Sửa tour thành công");
+
+        return response;
+    }
+
+    @Transactional
+    public String deleteTour(Integer id) {
+        TourEntity tour = tourRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Khong tim thay tour voi id nay"));  
+            //IllegalArgumentException dùng để báo rằng tham số truyền vào hàm là không hợp lệ.
+
+        boolean hasBooking = tour.getDepartureSchedules().stream()
+        .anyMatch(ds -> !ds.getBookings().isEmpty());  //kiểm tra tour có người đặt chưa
+
+        if (hasBooking) {
+            throw new IllegalStateException("Tour đã có người đặt, không thể xóa");  //IllegalStateException → sai trạng thái
+        }
+
+        departureScheduleRepository.deleteAll(tour.getDepartureSchedules());
+        tourRepository.delete(tour);
+
+        return "Xóa tour thành công";
     }
 
 }

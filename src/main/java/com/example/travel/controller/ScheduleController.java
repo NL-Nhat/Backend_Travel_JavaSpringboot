@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.travel.dto.response.ScheduleResponse;
-import com.example.travel.service.DepartureCheduleService;
+import com.example.travel.service.DepartureScheduleService;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/schedules")
 public class ScheduleController {
 
-    private final DepartureCheduleService d;
+    private final DepartureScheduleService d;
 
     @GetMapping("/{id}")
     public ResponseEntity<List<ScheduleResponse>> getAllScheduleOfDepartureChedule(@PathVariable(value = "id") 

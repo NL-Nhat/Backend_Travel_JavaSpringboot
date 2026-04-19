@@ -64,7 +64,7 @@ public class TourEntity {
     private String status;
 
     // @ManyToMany và @OnteToMany có fetchType mặc định là LAZY
-    @OneToMany(mappedBy = "tour")
+    @OneToMany(mappedBy = "tour")  //  , cascade = CascadeType.ALL, orphanRemoval = true -> Khi xóa tour → tự động xóa luôn schedule
     private List<DepartureScheduleEntity> departureSchedules = new ArrayList<DepartureScheduleEntity>();
 
     @OneToMany(mappedBy = "tour")

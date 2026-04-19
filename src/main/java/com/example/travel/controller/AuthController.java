@@ -167,6 +167,7 @@ public class AuthController {
         ResponseCookie cleanJwtCookie = ResponseCookie.from("accessToken", "") // Giá trị rỗng
                 .httpOnly(true)
                 .secure(false) // Nhớ đổi thành true khi lên HTTPS (Production)
+                .sameSite("Lax")
                 .path("/")
                 .maxAge(0) // ⏳ Cốt lõi: Đặt tuổi thọ về 0 để trình duyệt xóa ngay lập tức
                 .build();
@@ -175,6 +176,7 @@ public class AuthController {
         ResponseCookie cleanRefreshCookie = ResponseCookie.from("refreshToken", "")
                 .httpOnly(true)
                 .secure(false)
+                .sameSite("Lax")
                 .path("/api/auth/refresh") // Phải khớp với path lúc tạo thì mới ghi đè được
                 .maxAge(0)
                 .build();

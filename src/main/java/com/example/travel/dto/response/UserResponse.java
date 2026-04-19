@@ -18,5 +18,6 @@ public class UserResponse {
     private Integer gender;
     private String phoneNumber;
     private LocalDate doB;
+    private String role;
 
 }

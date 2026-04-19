@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.travel.dto.request.CreateGroup;
 import com.example.travel.dto.request.SearchRequest;
 import com.example.travel.dto.request.TourRequest;
+import com.example.travel.dto.request.UpdateGroup;
 import com.example.travel.dto.response.ReviewResponse;
 import com.example.travel.dto.response.TourDetailResponse;
 import com.example.travel.dto.response.TourResponse;
@@ -16,7 +18,6 @@ import com.example.travel.service.TourService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -26,6 +27,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -85,7 +87,7 @@ public class TourController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<?> addTour(@Valid @RequestPart("dto") TourRequest dto,
+    public ResponseEntity<?> createTour(@Validated(CreateGroup.class) @RequestPart("dto") TourRequest dto, //dùng @Validated để sử dụng Validation Group
                                     @RequestPart (required = false) MultipartFile file) {
         
         return ResponseEntity.ok(tourService.addTour(file, dto));
@@ -93,11 +95,21 @@ public class TourController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateTour(@Valid @RequestBody TourRequest tourRequestDTO,
+    public ResponseEntity<?> updateTour(@Validated(UpdateGroup.class) @RequestPart("dto") TourRequest dto,
                                             @PathVariable
-                                            @Min(value = 1, message = "idTour phải >= 1")
-                                            Integer id) {
+                                            @Min(value = 1, message = "idTour phải >= 1") Integer id,
+                                            @RequestPart (required = false) MultipartFile file) {
         
-        return ResponseEntity.ok(tourService.updateTour(tourRequestDTO, id));
+        return ResponseEntity.ok(tourService.updateTour(file, dto, id));
     }
+    
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteTour(@PathVariable @Min(value = 1, message = "idTour phải >= 1") Integer id) {
+
+        return ResponseEntity.ok(tourService.deleteTour(id));
+    }
+
+
+
 }

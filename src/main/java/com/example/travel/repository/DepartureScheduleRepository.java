@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.example.travel.entity.DepartureScheduleEntity;
 
 @Repository
-public interface DepartureCheduleRepository extends JpaRepository<DepartureScheduleEntity, Integer>{
+public interface DepartureScheduleRepository extends JpaRepository<DepartureScheduleEntity, Integer>{
 
     
 }
