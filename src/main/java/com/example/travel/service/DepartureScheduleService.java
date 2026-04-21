@@ -60,8 +60,24 @@ public class DepartureScheduleService{
         departureScheduleEntity.setHuongDanVien(userEntity);
         departureScheduleEntity.setTour(tour);
 
+        if (departureScheduleEntity.getSchedules() != null) {
+
+            departureScheduleEntity.getSchedules().forEach(s -> s.setDepartureSchedule(departureScheduleEntity));
+        }
+
         departureCheduleRepository.save(departureScheduleEntity);
 
         return "Thêm lịch khởi hành thành công";
+    }
+
+    @Transactional
+    public String deleteDepartureChedule(Integer id) {
+        
+        DepartureScheduleEntity departureScheduleEntity = departureCheduleRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Không tim thấy lịch khởi hành với id này"));
+
+        departureCheduleRepository.delete(departureScheduleEntity);
+
+        return "Xóa lịch khởi hành thành công";
     }
 }
