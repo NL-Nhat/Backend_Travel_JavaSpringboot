@@ -29,7 +29,7 @@ public class ImageTourEntity {
     @JoinColumn(name = "maTour")
     private TourEntity tour;
 
-    @Column(name = "urlHinhAnh", nullable = false)
+    @Column(name = "urlHinhAnh")
     private String image;
 
     @Column(name = "moTa")

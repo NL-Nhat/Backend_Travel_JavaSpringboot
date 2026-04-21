@@ -17,8 +17,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ScheduleRequest {
 
-    private Integer idDepartureSchedule;
-
     @NotNull(message = "ngày ko đc null")
     @FutureOrPresent(message = "Ngày lên lịch không được là ngày trong quá khứ")
     private LocalDate date;

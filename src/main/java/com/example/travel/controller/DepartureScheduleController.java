@@ -1,11 +1,8 @@
 package com.example.travel.controller;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.travel.dto.request.DepartureScheduleRequest;
@@ -38,10 +35,6 @@ public class DepartureScheduleController {
         return ResponseEntity.ok(departureScheduleService.getInfoBooking(id));
     }
 
-    @PostMapping
-    public ResponseEntity<String> addDepartureChedule(@RequestBody List<DepartureScheduleRequest> deps, @RequestParam(value = "idTour") Integer idTour) {
-        
-        return ResponseEntity.ok(departureScheduleService.addDepartureChedule(deps, idTour));
-    }
+    
 
 }

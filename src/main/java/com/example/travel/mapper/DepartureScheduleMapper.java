@@ -4,6 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
+import com.example.travel.dto.request.DepartureScheduleRequest;
 import com.example.travel.dto.response.InfoBookingResponse;
 import com.example.travel.entity.DepartureScheduleEntity;
 
@@ -19,5 +20,7 @@ public interface DepartureScheduleMapper {
     @Mapping(source = "tour.adultPrice", target = "adultPrice")
     @Mapping(source = "tour.childPrice", target = "childPrice")
     InfoBookingResponse toInfoResponseDTO(DepartureScheduleEntity d);
+
+    DepartureScheduleEntity toDepartureScheduleEntity(DepartureScheduleRequest request);
 
 }

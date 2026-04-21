@@ -173,7 +173,9 @@ public class TourService {
             throw new IllegalStateException("Tour đã có người đặt, không thể xóa");  //IllegalStateException → sai trạng thái
         }
 
-        cloudinaryService.deleteTourImage(id);
+        String path = "tour/tour_" + id;
+
+        cloudinaryService.deleteImage(path);
 
         departureScheduleRepository.deleteAll(tour.getDepartureSchedules());
         tourRepository.delete(tour);

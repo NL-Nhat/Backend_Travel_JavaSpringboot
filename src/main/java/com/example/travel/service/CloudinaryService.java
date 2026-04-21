@@ -31,13 +31,10 @@ public class CloudinaryService {
         return uploadResult.get("secure_url").toString();
     }
 
-    public void deleteTourImage(Integer idTour) {
+    public void deleteImage(String path) {
         try {
-            // Tên image đã tạo
-            String publicId = "tour/tour_" + idTour;
             
-            // Gọi API xóa của Cloudinary
-            cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+            cloudinary.uploader().destroy(path, ObjectUtils.emptyMap());
             
         } catch (Exception e) {
             System.err.println("Lỗi xóa ảnh trên Cloudinary: " + e.getMessage());

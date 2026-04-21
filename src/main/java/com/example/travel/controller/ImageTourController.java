@@ -4,18 +4,15 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.example.travel.dto.request.ImageTourRequest;
+import org.springframework.web.multipart.MultipartFile;
 import com.example.travel.service.ImageTourService;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 
 @Validated
@@ -26,14 +23,15 @@ public class ImageTourController {
 
     private final ImageTourService imageTourService;
 
-    @PostMapping("/add-image-tour")
-    public ResponseEntity<String> addImageTour(@Valid @RequestBody List<ImageTourRequest> i,//Thêm @Valid để hiện lỗi đã đặt trong RequestDto, chỉ dùng cho @RequestBody
-        //Vì @RequestParam luôn có thuộc tính required = true nên phải đặt lại thành false để @Notnull bắt lỗi được
-        //Nếu ko thì cơ chế của Spring sẽ tự động chặn lại và ném ra lỗi: "Required request parameter... is not present". 
-        //Nếu ko kiểm tra null(chỉ dùng @Min) thì ko cần thêm required = false vì cơ chế của Spring chỉ chặn null
-            @RequestParam(value = "idTour", required = false) @NotNull(message = "id tour ko đc null")
-            @Positive(message = "id phải > 0") Integer id ) {
+    @PostMapping("/{idTour}")
+    public ResponseEntity<?> addImageTour(
+        @RequestPart (required = false) List<MultipartFile> files,
+        @PathVariable(value = "idTour") 
+        @Min(value = 1 ,message = "id phải > 0") 
+        Integer idTour
+    ) {
 
-        return ResponseEntity.ok(imageTourService.addImageTour(i, id));
+        return ResponseEntity.ok(imageTourService.createImageTour(files, idTour));
     }
+
 }
