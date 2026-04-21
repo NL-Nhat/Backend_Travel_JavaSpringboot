@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.travel.dto.request.DepartureScheduleRequest;
 import com.example.travel.dto.response.InfoBookingResponse;
 import com.example.travel.service.DepartureScheduleService;
-
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +27,6 @@ public class DepartureScheduleController {
 
     @GetMapping("/{id}/info-booking")
     public ResponseEntity<InfoBookingResponse> getInfoBooking(@PathVariable(value = "id")
-                                                                 @NotNull(message = "id lịch khởi hành không được null")
                                                                  @Min(value = 1, message = "id lịch khởi hành phải >= 1")
                                                                  Integer id) {
         return ResponseEntity.ok(departureScheduleService.getInfoBooking(id));
@@ -40,6 +37,12 @@ public class DepartureScheduleController {
             @PathVariable @Min(value = 1, message = "idTour phải >= 1") Integer idTour) {
         
         return ResponseEntity.ok(departureScheduleService.createDepartureChedule(request, idTour));
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteDepartureChedule(@PathVariable @Min(value = 1, message = "id lịch khởi hành phải >= 1") Integer id) {
+
+        return ResponseEntity.ok(departureScheduleService.deleteDepartureChedule(id));
     }
 
 }

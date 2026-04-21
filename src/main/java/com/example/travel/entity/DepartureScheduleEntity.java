@@ -8,6 +8,7 @@ import java.util.List;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -66,7 +67,7 @@ public class DepartureScheduleEntity {
     @OneToMany(mappedBy = "departureSchedule")
     private List<BookingEntity> bookings = new ArrayList<BookingEntity>();
 
-    @OneToMany(mappedBy = "departureSchedule")
+    @OneToMany(mappedBy = "departureSchedule", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ScheduleEntity> schedules = new ArrayList<ScheduleEntity>();
 
 }
