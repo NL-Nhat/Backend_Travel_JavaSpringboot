@@ -54,5 +54,18 @@ public class ImageTourService {
         return "Thêm ảnh thành công";
     }
 
-   
+    @Transactional
+    public String deleteImageTour(Integer id) {
+
+        ImageTourEntity imageTourEntity = imageTourRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Ko tìm thấy ảnh với id này"));
+
+        String path = "tour/imageTour_" + id;
+
+        cloudinaryService.deleteImage(path);
+
+        imageTourRepository.delete(imageTourEntity);
+
+        return "Xóa ảnh thành công";
+    }
 }

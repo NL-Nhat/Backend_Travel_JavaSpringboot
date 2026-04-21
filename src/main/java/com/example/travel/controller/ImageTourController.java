@@ -34,4 +34,9 @@ public class ImageTourController {
         return ResponseEntity.ok(imageTourService.createImageTour(files, idTour));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteImageTour(@PathVariable @Min(value = 1 ,message = "id phải > 0")  Integer id) {
+
+        return ResponseEntity.ok(imageTourService.deleteImageTour(id));
+    }
 }
