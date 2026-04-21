@@ -1,6 +1,7 @@
 package com.example.travel.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.travel.dto.request.RegisterRequest;
 import com.example.travel.dto.request.UserRequest;
+import com.example.travel.dto.response.TourGuideResponse;
 import com.example.travel.dto.response.UserResponse;
 import com.example.travel.entity.UserEntity;
 import com.example.travel.mapper.UserMapper;
@@ -87,5 +89,13 @@ public class UserService {
         userRepository.save(userEntity);
 
         return "Đăng ký thành công";
+    }
+
+    public List<TourGuideResponse> getTourGuide() {
+
+        return userRepository.findAllByRole("HUONGDANVIEN")
+            .stream()
+            .map(user -> new TourGuideResponse(user.getId(), user.getFullName()))
+            .toList();
     }
 }

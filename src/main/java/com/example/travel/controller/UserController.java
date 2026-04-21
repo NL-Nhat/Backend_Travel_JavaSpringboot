@@ -57,4 +57,11 @@ public class UserController {
 
         return ResponseEntity.ok(userService.updateProfile(file, dto, userName));
     }
+
+    @GetMapping("/guides")
+    public ResponseEntity<?> getTourGuide() {
+
+        return ResponseEntity.ok(userService.getTourGuide());
+    }
+    
 }
