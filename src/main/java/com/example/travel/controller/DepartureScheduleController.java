@@ -35,6 +35,11 @@ public class DepartureScheduleController {
         return ResponseEntity.ok(departureScheduleService.getInfoBooking(id));
     }
 
-    
+    @PostMapping
+    public ResponseEntity<?> createDepartureChedule(@RequestBody DepartureScheduleRequest request, 
+            @PathVariable @Min(value = 1, message = "idTour phải >= 1") Integer idTour) {
+        
+        return ResponseEntity.ok(departureScheduleService.createDepartureChedule(request, idTour));
+    }
 
 }
