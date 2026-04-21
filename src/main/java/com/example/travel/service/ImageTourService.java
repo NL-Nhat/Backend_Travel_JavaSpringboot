@@ -1,14 +1,11 @@
 package com.example.travel.service;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
-import com.example.travel.dto.request.ImageTourRequest;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import com.example.travel.entity.ImageTourEntity;
 import com.example.travel.entity.TourEntity;
-import com.example.travel.mapper.ImageTourMapper;
 import com.example.travel.repository.ImageTourRepository;
 import com.example.travel.repository.TourRepository;
 
@@ -20,24 +17,42 @@ public class ImageTourService {
 
     private final ImageTourRepository imageTourRepository;
     private final TourRepository tourRepository;
-    private final ImageTourMapper imageTourMapper;
+    private final CloudinaryService cloudinaryService;
 
-    public String addImageTour(List<ImageTourRequest> i, Integer idTour) {
+    @Transactional
+    public String createImageTour(List<MultipartFile> files, Integer id) {
 
-        TourEntity t = tourRepository.findById(idTour)
-            .orElseThrow(() -> new RuntimeException("Ko tìm thấy tour với id này"));
-
-            //Tạo danh sách tạm để chứa các Entity
-        List<ImageTourEntity> listImage = new ArrayList<>();
-
-        for (ImageTourRequest dto : i) {
-            ImageTourEntity imageTour = imageTourMapper.toImageTourEntity(dto);
-            imageTour.setTour(t);
-            listImage.add(imageTour);
+        if (files == null || files.isEmpty()) {
+            throw new RuntimeException("Danh sách ảnh rỗng");
         }
 
-        imageTourRepository.saveAll(listImage);
+        TourEntity tourEntity = tourRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Ko tìm thấy tour với id này"));
 
-        return "Thêm " + listImage.size() +" ảnh tour thành công";
+        for (MultipartFile file : files) {
+
+            if (file == null || file.isEmpty()) {
+                continue;
+            }
+
+            ImageTourEntity imageTourEntity = new ImageTourEntity();
+            imageTourEntity.setTour(tourEntity);
+
+            ImageTourEntity saveImageTourEntity = imageTourRepository.save(imageTourEntity);
+
+            try {
+                String fileName = "tour/imageTour_" + saveImageTourEntity.getId();
+                String imageURL = cloudinaryService.uploadImage(file, fileName);
+
+                saveImageTourEntity.setImage(imageURL);
+
+                imageTourRepository.save(saveImageTourEntity);
+            } catch (Exception e) {
+                throw new RuntimeException("Upload ảnh thất bại: " + e.getMessage(), e);
+            }
+        }
+        return "Thêm ảnh thành công";
     }
+
+   
 }

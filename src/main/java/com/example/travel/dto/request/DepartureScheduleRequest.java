@@ -19,7 +19,8 @@ public class DepartureScheduleRequest {
     private LocalTime startTime;
     private LocalDate endDate;
     private LocalTime endTime;
-    private Integer huongDanVien;
+    private Integer idHuongDanVien;
     private Integer maxGuest;
+
     private List<ScheduleRequest> schedules;
 }
