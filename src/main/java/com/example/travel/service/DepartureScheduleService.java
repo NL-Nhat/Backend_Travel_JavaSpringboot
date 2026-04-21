@@ -46,4 +46,22 @@ public class DepartureScheduleService{
         return i;
     }
 
+    @Transactional
+    public String createDepartureChedule(DepartureScheduleRequest request, Integer idTour) {
+
+        DepartureScheduleEntity departureScheduleEntity = departureCheduleMapper.toDepartureScheduleEntity(request);
+            
+        UserEntity userEntity = userRepository.findById(request.getIdHuongDanVien())
+            .orElseThrow(() -> new RuntimeException("Ko tìm thấy hướng dẫn viên với id này"));
+
+        TourEntity tour = tourRepository.findById(idTour)
+            .orElseThrow(() -> new IllegalArgumentException("Ko tìm thấy tour với id này"));
+
+        departureScheduleEntity.setHuongDanVien(userEntity);
+        departureScheduleEntity.setTour(tour);
+
+        departureCheduleRepository.save(departureScheduleEntity);
+
+        return "Thêm lịch khởi hành thành công";
+    }
 }
